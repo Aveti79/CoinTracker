@@ -10,4 +10,9 @@ public class ViewController {
     String viewAddCoinForm() {
         return "addCoinPanel";
     }
+
+    @GetMapping("/gains")
+    String viewGainsAndLossTable() {
+        return "gainsTable";
+    }
 }

@@ -1,6 +1,6 @@
 package com.aveti.CoinTracker.logic;
 
-import com.aveti.CoinTracker.model.TransactionRepository;
+import com.aveti.CoinTracker.model.repository.TransactionRepository;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -7,6 +7,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class CoinDeserializer extends StdDeserializer<Coin> {
 
@@ -19,14 +22,20 @@ public class CoinDeserializer extends StdDeserializer<Coin> {
     }
 
     @Override
-    public Coin deserialize(final JsonParser jsonParser, final DeserializationContext deserializationContext)
+    public CoinList deserialize(final JsonParser jsonParser, final DeserializationContext deserializationContext)
             throws IOException, JacksonException {
 
+        List<Coin> coinsList = new ArrayList<>();
         JsonNode node = jsonParser.getCodec().readTree(jsonParser);
-        String name = node.fieldNames().next();
-        double price = node.get(name).get("usd").asDouble();
-        double priceChange24h = node.get(name).get("usd_24h_change").asDouble();
+        Iterator<JsonNode> jsonCoinList = node.elements();
+        while (jsonCoinList.hasNext()) {
+            final JsonNode element = jsonCoinList.next();
+            String id = element.get("id").asText();
+            String symbol = element.get("symbol").asText();
+            String name = element.get("name").asText();
+            coinsList.add(new Coin(id, symbol, name));
+        }
 
-        return new Coin(name, price, priceChange24h);
+        return new CoinList(coinsList);
     }
 }

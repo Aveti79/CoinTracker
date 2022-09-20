@@ -1,5 +1,6 @@
-package com.aveti.CoinTracker.model;
+package com.aveti.CoinTracker.model.repository;
 
+import com.aveti.CoinTracker.model.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
