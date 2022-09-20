@@ -65,7 +65,7 @@ public class Transaction {
         this.id = id;
     }
 
-    String getType() {
+    public String getType() {
         return type;
     }
 
@@ -73,7 +73,7 @@ public class Transaction {
         this.type = type;
     }
 
-    LocalDateTime getTransactionTime() {
+    public LocalDateTime getTransactionTime() {
         return transactionTime;
     }
 
@@ -81,7 +81,7 @@ public class Transaction {
         this.transactionTime = transactionTime;
     }
 
-    double getBuyAmount() {
+    public double getBuyAmount() {
         return buyAmount;
     }
 
@@ -89,7 +89,7 @@ public class Transaction {
         this.buyAmount = buyAmount;
     }
 
-    String getBuyCurrency() {
+    public String getBuyCurrency() {
         return buyCurrency;
     }
 
@@ -97,7 +97,7 @@ public class Transaction {
         this.buyCurrency = buyCurrency;
     }
 
-    double getSellAmount() {
+    public double getSellAmount() {
         return sellAmount;
     }
 
@@ -105,7 +105,7 @@ public class Transaction {
         this.sellAmount = sellAmount;
     }
 
-    String getSellCurrency() {
+    public String getSellCurrency() {
         return sellCurrency;
     }
 
@@ -113,7 +113,7 @@ public class Transaction {
         this.sellCurrency = sellCurrency;
     }
 
-    double getFeeAmount() {
+    public double getFeeAmount() {
         return feeAmount;
     }
 
@@ -121,7 +121,7 @@ public class Transaction {
         this.feeAmount = feeAmount;
     }
 
-    String getFeeCurrency() {
+    public String getFeeCurrency() {
         return feeCurrency;
     }
 
@@ -129,7 +129,7 @@ public class Transaction {
         this.feeCurrency = feeCurrency;
     }
 
-    String getComment() {
+    public String getComment() {
         return comment;
     }
 
