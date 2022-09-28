@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Coin Tracker - Transactions</title>
+    <link rel="stylesheet" type="text/css" href="/awesome_css.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+</head>
+<body>
+<h2>Lista transakcji</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Typ</th>
+        <th>Czas transakcji</th>
+        <th>Zakup</th>
+        <th>Waluta zakupu</th>
+        <th>Sprzedaż</th>
+        <th>Waluta sprzedaży</th>
+        <th>Opłata tranakcyjna</th>
+        <th>Waluta opłaty transakcyjnej</th>
+        <th>Komentarz</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!--/*@thymesVar id="transaction" type="com.aveti.CoinTracker.model.Transaction"*/-->
+    <tr th:each="transaction : ${transactions}">
+        <td th:text="${transaction.getType()}"></td>
+        <td th:text="${transaction.getTransactionTime()}"></td>
+        <td th:text="${transaction.getBuyAmount()}"></td>
+        <td th:text="${transaction.getBuyCurrency()}"></td>
+        <td th:text="${transaction.getSellAmount()}"></td>
+        <td th:text="${transaction.getSellCurrency()}"></td>
+        <td th:text="${transaction.getFeeAmount()}"></td>
+        <td th:text="${transaction.getFeeCurrency()}"></td>
+        <td th:text="${transaction.getComment()}"></td>
+    </tr>
+    </tbody>
+    <tfoot></tfoot>
+</table>
+</body>
+</html>
