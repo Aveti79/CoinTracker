@@ -9,9 +9,12 @@ public class GainTableRow {
     private double actualPrice;
     private double priceChange24h;
     private double actualValue;
-    private double percentageValueChane;
+    private double percentageValueChange;
     private double unrealizedGains;
     private double realizedGains;
+
+    public GainTableRow() {
+    }
 
     public Coin getCurrency() {
         return currency;
@@ -69,12 +72,12 @@ public class GainTableRow {
         this.actualValue = actualValue;
     }
 
-    public double getPercentageValueChane() {
-        return percentageValueChane;
+    public double getPercentageValueChange() {
+        return percentageValueChange;
     }
 
-    public void setPercentageValueChane(final double percentageValueChane) {
-        this.percentageValueChane = percentageValueChane;
+    public void setPercentageValueChange(final double percentageValueChange) {
+        this.percentageValueChange = percentageValueChange;
     }
 
     public double getUnrealizedGains() {

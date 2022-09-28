@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Coin Tracker - Zyski zrealizowane i niezrealizowane</title>
     <link rel="stylesheet" type="text/css" href="/awesome_css.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
 <h2>Zysk/strata zrealizowane i niezrealizowane dla każdej waluty</h2>
@@ -22,8 +23,19 @@
         </tr>
     </thead>
     <tbody>
+        <!--/*@thymesVar id="gainTableRows" type="com.aveti.CoinTracker.model.GainTableRow"*/-->
+        <tr th:each="tableRow : ${gainTableRows}">
+            <td th:text="${tableRow.getCurrency().getName()}"></td>
+            <td th:text="${tableRow.getAmount()}"></td>
+            <td th:text="${#numbers.formatDecimal(tableRow.getAverageBuyPrice(), 1, 2)}"></td>
+            <td th:text="${tableRow.getSummaryPrice()}"></td>
+            <td th:text="${tableRow.getActualPrice()} + ' ' + ${#numbers.formatPercent(tableRow.getPriceChange24h()/100, 1, 2)}"></td>
+            <td th:text="${tableRow.getActualValue()}"></td>
+            <td th:text="${#numbers.formatPercent(tableRow.getPercentageValueChange(), 1, 2)}"></td>
+            <td th:text="${tableRow.getUnrealizedGains()}"></td>
+            <td th:text="${tableRow.getUnrealizedGains()}"></td>
+        </tr>
     </tbody>
-    <tfoot></tfoot>
 </table>
 </body>
 </html>
