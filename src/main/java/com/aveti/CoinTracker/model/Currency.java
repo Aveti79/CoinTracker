@@ -1,10 +1,12 @@
 package com.aveti.CoinTracker.model;
 
+import javax.persistence.Embeddable;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+@Embeddable
 @MappedSuperclass
-abstract class Currency {
+public abstract class Currency {
 
     @Id
     private String id;
@@ -35,4 +37,8 @@ abstract class Currency {
         this.name = name;
     }
 
+    @Override
+    public String toString() {
+        return getSymbol().toUpperCase() + " " + getName();
+    }
 }

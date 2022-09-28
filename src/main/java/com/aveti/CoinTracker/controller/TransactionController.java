@@ -44,4 +44,9 @@ public class  TransactionController {
         Transaction result = service.createTransaction(transactionToAdd);
         return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
     }
+
+    @GetMapping("/buy_coins")
+    Double getDistinctBuyCurrencies() {
+        return service.getSumOfCurrency();
+    }
 }

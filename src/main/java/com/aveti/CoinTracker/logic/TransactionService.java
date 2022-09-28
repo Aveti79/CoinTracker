@@ -41,4 +41,12 @@ public class TransactionService {
     public List<String> findAllCoinsUsedInTransactions() {
         return transactionRepository.findAll().stream().map(Transaction::getBuyCurrency).collect(Collectors.toList());
     }
+
+    public List<String> getUsedCurrencies() {
+        return transactionRepository.findDistinctBuyCurrencies();
+    }
+
+    public Double getSumOfCurrency() {
+        return transactionRepository.getSumOfBuyAmount("BTC");
+    }
 }

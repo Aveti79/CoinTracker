@@ -1,5 +1,7 @@
 package com.aveti.CoinTracker.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -11,6 +13,7 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String type; //todo: maybe add enum class for type
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime transactionTime;
     private double buyAmount;
     private String buyCurrency; //todo: rethink Coin class
@@ -61,7 +64,7 @@ public class Transaction {
         return id;
     }
 
-    void setId(final int id) {
+    public void setId(final int id) {
         this.id = id;
     }
 
@@ -69,7 +72,7 @@ public class Transaction {
         return type;
     }
 
-    void setType(final String type) {
+    public void setType(final String type) {
         this.type = type;
     }
 
@@ -77,7 +80,7 @@ public class Transaction {
         return transactionTime;
     }
 
-    void setTransactionTime(final LocalDateTime transactionTime) {
+    public void setTransactionTime(final LocalDateTime transactionTime) {
         this.transactionTime = transactionTime;
     }
 
@@ -85,7 +88,7 @@ public class Transaction {
         return buyAmount;
     }
 
-    void setBuyAmount(final double buyAmount) {
+    public void setBuyAmount(final double buyAmount) {
         this.buyAmount = buyAmount;
     }
 
@@ -93,7 +96,7 @@ public class Transaction {
         return buyCurrency;
     }
 
-    void setBuyCurrency(final String buyCurrency) {
+    public void setBuyCurrency(final String buyCurrency) {
         this.buyCurrency = buyCurrency;
     }
 
@@ -101,7 +104,7 @@ public class Transaction {
         return sellAmount;
     }
 
-    void setSellAmount(final double sellAmount) {
+    public void setSellAmount(final double sellAmount) {
         this.sellAmount = sellAmount;
     }
 
@@ -109,7 +112,7 @@ public class Transaction {
         return sellCurrency;
     }
 
-    void setSellCurrency(final String sellCurrency) {
+    public void setSellCurrency(final String sellCurrency) {
         this.sellCurrency = sellCurrency;
     }
 
@@ -117,7 +120,7 @@ public class Transaction {
         return feeAmount;
     }
 
-    void setFeeAmount(final double feeAmount) {
+    public void setFeeAmount(final double feeAmount) {
         this.feeAmount = feeAmount;
     }
 
@@ -125,7 +128,7 @@ public class Transaction {
         return feeCurrency;
     }
 
-    void setFeeCurrency(final String feeCurrency) {
+    public void setFeeCurrency(final String feeCurrency) {
         this.feeCurrency = feeCurrency;
     }
 
@@ -133,7 +136,7 @@ public class Transaction {
         return comment;
     }
 
-    void setComment(final String comment) {
+    public void setComment(final String comment) {
         this.comment = comment;
     }
 }
