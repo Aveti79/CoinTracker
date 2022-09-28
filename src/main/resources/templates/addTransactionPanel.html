@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Coin Tracker - Add Transaction</title>
+    <link rel="stylesheet" type="text/css" href="/awesome_css.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+</head>
+<body>
+<h1>Welcome to Coin Tracker App</h1>
+<!--/*@thymesVar id="transaction" type="com.aveti.CoinTracker.model.Transaction"*/-->
+<form action="#" method="post" th:action="@{/addTransaction}" th:object="${transaction}">
+    <fieldset>
+        <legend>Typ transakcji i data</legend>
+        <label>Typ:
+            <select th:field="*{type}" name="type">
+                <option value="Handel">Handel</option>
+                <option value="Wpłata">Wpłata</option>
+                <option value="Wypłata">Wypłata</option>
+                <option value="Transfer">Transfer</option>
+            </select>
+        </label>
+        <label>Data:
+            <input type="datetime-local" step="1" th:field="*{transactionTime}" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}">
+        </label>
+    </fieldset>
+    <fieldset>
+        <legend>Zakup</legend>
+        <label>Ilość:
+            <input type="number" step="any" min="0" th:field="*{buyAmount}">
+        </label>
+        <label>Waluta:
+            <input class="currency" type="text">
+            <input class="currency_id" type="text"  th:field="*{buyCurrency}">
+        </label>
+    </fieldset>
+    <fieldset>
+        <legend>Sprzedaż</legend>
+        <label>Ilość:
+            <input type="number" step="any" min="0" th:field="*{sellAmount}">
+        </label>
+        <label>Waluta:
+            <input class="currency" type="text">
+            <input class="currency_id" type="text" th:field="*{sellCurrency}">
+        </label>
+    </fieldset>
+    <fieldset>
+        <legend>Opłaty transakcyjne<small> - opcjonalne</small></legend>
+        <label>Ilość:
+            <input type="number" step="any" min="0" th:field="*{feeAmount}">
+        </label>
+        <label>Waluta:
+            <input class="currency" type="text">
+            <input class="currency_id" type="text" th:field="*{feeCurrency}">
+        </label>
+    </fieldset>
+    <fieldset>
+        <legend>Dodatkowe informacje<small> - opcjonalne</small></legend>
+        <label>Komentarz:<br>
+            <input type="text" maxlength="250" th:field="*{comment}">
+        </label>
+    </fieldset>
+    <button type="submit">Dodaj</button>
+    <button type="reset">Wyczyść formularz</button>
+</form>
+</body>
+<script>
+    $(function () {
+        $(".currency").autocomplete({
+            source: "coinNameAutocomplete",
+            minLength: 2,
+            select: function (event, ui) {
+                this.value = ui.item.label;
+                $(this).next().val(ui.item.value)
+                return false;
+            }
+        });
+    });
+</script>
+<script>
+    document.querySelectorAll(".currency").forEach(currency => {
+        currency.addEventListener('focusout', () => {
+            console.log(currency.nextElementSibling.value);
+            console.log(currency.value);
+            if (!currency.nextElementSibling.value) {
+                currency.nextElementSibling.value=currency.value;
+            }
+        })
+    })
+</script>
+</html>

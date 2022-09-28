@@ -1,9 +1,11 @@
 package com.aveti.CoinTracker.controller;
 
 import com.aveti.CoinTracker.logic.CoinGeckoApiService;
+import com.aveti.CoinTracker.logic.CoinService;
 import com.aveti.CoinTracker.logic.TransactionService;
 import com.aveti.CoinTracker.model.Coin;
 import com.aveti.CoinTracker.model.CoinList;
+import com.aveti.CoinTracker.model.CoinPrice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,28 +16,23 @@ import java.util.List;
 @RestController
 public class CoinGeckoApiController {
 
+    private CoinService coinService;
     private TransactionService transactionService;
     private CoinGeckoApiService apiService;
-    RestTemplate restTemplate = new RestTemplate();
+    private RestTemplate restTemplate = new RestTemplate();
     public static final String baseApiUrl = "https://api.coingecko.com/api/v3";
 
-    CoinGeckoApiController(final TransactionService transactionService, final CoinGeckoApiService apiService) {
+    CoinGeckoApiController(final CoinService coinService, final TransactionService transactionService, final CoinGeckoApiService apiService) {
+        this.coinService = coinService;
         this.transactionService = transactionService;
         this.apiService = apiService;
     }
 
     @GetMapping("/coinPrice")
-    Coin getCoinPrice() {
+    CoinPrice getCoinPrice() {
         String resourceUrl = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_24hr_change=true";
 
-        ResponseEntity<Coin> response = restTemplate.getForEntity(resourceUrl,Coin.class);
-        //String resp = response.getBody();
-        //System.out.println(resp);
-
-        //Coin coin = restTemplate.getForObject(resourceUrl, Coin.class);
-
-        //System.out.println(coin.getName() + ", " + coin.getPrice() + ", " + coin.getPriceChange24h());
-
+        ResponseEntity<CoinPrice> response = restTemplate.getForEntity(resourceUrl,CoinPrice.class);
         return response.getBody();
     }
 
