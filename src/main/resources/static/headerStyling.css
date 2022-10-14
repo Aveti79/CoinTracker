@@ -1,0 +1,68 @@
+body {
+    margin: 0 0 1em 0;
+}
+
+body > header {
+    margin-bottom: 0;
+    max-width: none;
+}
+
+header ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+header nav > a, header nav > a:visited {
+    display: inline-block;
+    padding: 8px 8px 8px 8px;
+    margin-left: 16px;
+    text-decoration: none;
+    color: #3a3b45;
+}
+
+header nav {
+    margin: 0 0 1em;
+}
+
+header nav li {
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-top: 0 !important;
+}
+
+header li {
+    float: left;
+}
+
+header li a {
+    font-weight: 500;
+    font-size: 18px;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+header li:first-child > a {
+    padding-left: 24px;
+}
+
+header li:last-child > a {
+    padding-right: 24px;
+}
+
+header li a:hover {
+    background-color: #111;
+}
+
+nav a:visited {
+    color: white;
+}
+
+nav a {
+    color: white;
+}

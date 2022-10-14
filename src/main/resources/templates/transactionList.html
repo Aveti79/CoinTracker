@@ -27,11 +27,11 @@
     <tr th:each="transaction : ${transactions}">
         <td th:text="${transaction.getType()}"></td>
         <td th:text="${transaction.getTransactionTime()}"></td>
-        <td th:text="${transaction.getBuyAmount()}"></td>
+        <td th:text="${@decimalFormatter.formatDecimalStripTrailingZeros(transaction.getBuyAmount(), 1, 8)}"></td>
         <td th:text="${transaction.getBuyCurrency()}"></td>
-        <td th:text="${transaction.getSellAmount()}"></td>
+        <td th:text="${@decimalFormatter.formatDecimalStripTrailingZeros(transaction.getSellAmount(), 1, 8)}"></td>
         <td th:text="${transaction.getSellCurrency()}"></td>
-        <td th:text="${transaction.getFeeAmount()}"></td>
+        <td th:text="${@decimalFormatter.formatDecimalStripTrailingZeros(transaction.getFeeAmount(), 1, 8)}"></td>
         <td th:text="${transaction.getFeeCurrency()}"></td>
         <td th:text="${transaction.getComment()}"></td>
     </tr>

@@ -26,11 +26,11 @@
         <!--/*@thymesVar id="gainTableRows" type="com.aveti.CoinTracker.model.GainTableRow"*/-->
         <tr th:each="tableRow : ${gainTableRows}">
             <td th:text="${tableRow.getCurrency().getName()}"></td>
-            <td th:text="${tableRow.getAmount()}"></td>
-            <td th:text="${#numbers.formatDecimal(tableRow.getAverageBuyPrice(), 1, 2)}"></td>
-            <td th:text="${tableRow.getSummaryPrice()}"></td>
+            <td th:text="${@decimalFormatter.formatDecimalStripTrailingZeros(tableRow.getAmount(), 1, 8)}"></td>
+            <td th:text="${@decimalFormatter.formatDecimalStripTrailingZeros(tableRow.getAverageBuyPrice(), 1, 8)}"></td>
+            <td th:text="${@decimalFormatter.formatDecimalStripTrailingZeros(tableRow.getSummaryPrice(), 1, 8)}"></td>
             <td th:text="${tableRow.getActualPrice()} + ' ' + ${#numbers.formatPercent(tableRow.getPriceChange24h()/100, 1, 2)}"></td>
-            <td th:text="${tableRow.getActualValue()}"></td>
+            <td th:text="${#numbers.formatCurrency(@decimalFormatter.formatDecimalStripTrailingZeros(tableRow.getActualValue(), 1, 8))}"></td>
             <td th:text="${#numbers.formatPercent(tableRow.getPercentageValueChange(), 1, 2)}"></td>
             <td th:text="${tableRow.getUnrealizedGains()}"></td>
             <td th:text="${tableRow.getUnrealizedGains()}"></td>
