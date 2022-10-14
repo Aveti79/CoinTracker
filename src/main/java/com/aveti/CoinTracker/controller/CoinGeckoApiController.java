@@ -1,7 +1,7 @@
 package com.aveti.CoinTracker.controller;
 
 import com.aveti.CoinTracker.logic.CoinGeckoApiService;
-import com.aveti.CoinTracker.logic.CoinService;
+import com.aveti.CoinTracker.logic.CurrencyService;
 import com.aveti.CoinTracker.logic.TransactionService;
 import com.aveti.CoinTracker.model.Coin;
 import com.aveti.CoinTracker.model.CoinList;
@@ -16,14 +16,14 @@ import java.util.List;
 @RestController
 public class CoinGeckoApiController {
 
-    private CoinService coinService;
+    private CurrencyService currencyService;
     private TransactionService transactionService;
     private CoinGeckoApiService apiService;
     private RestTemplate restTemplate = new RestTemplate();
     public static final String baseApiUrl = "https://api.coingecko.com/api/v3";
 
-    CoinGeckoApiController(final CoinService coinService, final TransactionService transactionService, final CoinGeckoApiService apiService) {
-        this.coinService = coinService;
+    CoinGeckoApiController(final CurrencyService currencyService, final TransactionService transactionService, final CoinGeckoApiService apiService) {
+        this.currencyService = currencyService;
         this.transactionService = transactionService;
         this.apiService = apiService;
     }
