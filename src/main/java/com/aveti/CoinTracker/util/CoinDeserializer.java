@@ -1,5 +1,7 @@
-package com.aveti.CoinTracker.model;
+package com.aveti.CoinTracker.util;
 
+import com.aveti.CoinTracker.model.Coin;
+import com.aveti.CoinTracker.model.CoinList;
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
