@@ -1,5 +1,6 @@
 package com.aveti.CoinTracker.model;
 
+import com.aveti.CoinTracker.util.CoinDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.util.ArrayList;

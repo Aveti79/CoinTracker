@@ -1,5 +1,6 @@
 package com.aveti.CoinTracker.model;
 
+import com.aveti.CoinTracker.util.CoinPriceDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @JsonDeserialize(using = CoinPriceDeserializer.class)
@@ -14,7 +15,7 @@ public class CoinPrice {
     public CoinPrice() {
     }
 
-    CoinPrice(final String name, final double price, final double priceChange24h) {
+    public CoinPrice(final String name, final double price, final double priceChange24h) {
         this.name = name;
         this.price = price;
         this.priceChange24h = priceChange24h;
