@@ -13,7 +13,7 @@
         <tr>
             <th>Waluta</th>
             <th>Kwota</th>
-            <th>Średnia cena zakupu</th>
+            <th>Koszt jednostkowy</th>
             <th>Koszt zakupu</th>
             <th>Aktualna cena<br>i zmiana % 24h</th>
             <th>Aktualna wartość</th>
@@ -27,10 +27,10 @@
         <tr th:each="tableRow : ${gainTableRows}">
             <td th:text="${tableRow.getCurrency().getName()}"></td>
             <td th:text="${@decimalFormatter.formatDecimalStripTrailingZeros(tableRow.getAmount(), 1, 8)}"></td>
-            <td th:text="${@decimalFormatter.formatDecimalStripTrailingZeros(tableRow.getAverageBuyPrice(), 1, 8)}"></td>
+            <td th:text="${@currencyFormatter.formatCurrency(@decimalFormatter.formatDecimalStripTrailingZeros(tableRow.getAverageBuyPrice(), 1, 8), #locale.US)}"></td>
             <td th:text="${@decimalFormatter.formatDecimalStripTrailingZeros(tableRow.getSummaryPrice(), 1, 8)}"></td>
             <td th:text="${tableRow.getActualPrice()} + ' ' + ${#numbers.formatPercent(tableRow.getPriceChange24h()/100, 1, 2)}"></td>
-            <td th:text="${#numbers.formatCurrency(@decimalFormatter.formatDecimalStripTrailingZeros(tableRow.getActualValue(), 1, 8))}"></td>
+            <td th:text="${@currencyFormatter.formatCurrency(@decimalFormatter.formatDecimalStripTrailingZeros(tableRow.getActualValue(), 1, 8), #locale.US)}"></td>
             <td th:text="${#numbers.formatPercent(tableRow.getPercentageValueChange(), 1, 2)}"></td>
             <td th:text="${tableRow.getUnrealizedGains()}"></td>
             <td th:text="${tableRow.getUnrealizedGains()}"></td>

@@ -26,18 +26,24 @@ public class DecimalFormatter {
             return null;
         }
         try {
-            if (target.intValue()>=10) {
-                decimalDigits=4;
-            }
-            if (target.intValue()>=100) {
-                decimalDigits=2;
-            }
-            BigDecimal result = new BigDecimal(NumberUtils.format(target, minIntegerDigits, decimalDigits, NumberPointType.POINT, this.locale));
+            BigDecimal result = new BigDecimal(NumberUtils.format(target, minIntegerDigits, calculateNumberOfDecimalDigits(target), NumberPointType.POINT, this.locale));
             return result.stripTrailingZeros().toPlainString();
         } catch (final Exception e) {
             throw new TemplateProcessingException(
                     "Error formatting decimal with minimum integer digits = " + minIntegerDigits +
                             " and decimal digits " + decimalDigits, e);
         }
+    }
+
+    private int calculateNumberOfDecimalDigits(Number target) {
+        if (target.intValue()>=1 && target.intValue()<10) {
+            return 6;
+        } else if (target.intValue()>=10 && target.intValue()<100) {
+            return 4;
+        }
+        else if (target.intValue()>=100) {
+            return 2;
+        }
+        return 8;
     }
 }

@@ -34,7 +34,7 @@ public class GainsTableService {
         GainTableRow result = new GainTableRow();
         result.setCurrency(coinRepository.findById(currency));
         result.setAmount(transactionRepository.getSumOfBuyAmount(currency));
-        result.setAverageBuyPrice(transactionRepository.getAverageBuyPrice(currency));
+        result.setAverageBuyPrice(transactionRepository.getUnitCostOfCurrency(currency));
         result.setSummaryPrice(transactionRepository.getSumOfSellAmount(currency));
         result.setActualPrice(apiService.getCoinPriceInfo(currency).getPrice());
         result.setPriceChange24h(apiService.getCoinPriceInfo(currency).getPriceChange24h());
@@ -53,7 +53,8 @@ public class GainsTableService {
     }
 
     Double calculateValueChange(double sumOfSellAmount, double actualValue) {
-        return 1-(sumOfSellAmount/actualValue);
+
+        return (actualValue/sumOfSellAmount)-1;
     }
 
 }

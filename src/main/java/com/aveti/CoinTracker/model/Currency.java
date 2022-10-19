@@ -1,8 +1,6 @@
 package com.aveti.CoinTracker.model;
 
-import javax.persistence.Embeddable;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 
 @Embeddable
 @MappedSuperclass
