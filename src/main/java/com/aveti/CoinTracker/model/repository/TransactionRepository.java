@@ -21,8 +21,8 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
     @Query("select sum (sellAmount) from Transaction where buyCurrency=:buyCurrency")
     Double getSumOfSellAmount(@Param("buyCurrency") String currency);
 
-    @Query("select avg(sellAmount/buyAmount) from Transaction where buyCurrency=:buyCurrency")
-    Double getAverageBuyPrice(@Param("buyCurrency") String currency);
+    @Query("select sum(sellAmount)/sum(buyAmount) from Transaction where buyCurrency=:buyCurrency")
+    Double getUnitCostOfCurrency(@Param("buyCurrency") String currency);
 
     @Query(nativeQuery = true, value="select distinct buy_Currency from Transactions")
     List<String> findDistinctBuyCurrencies();
