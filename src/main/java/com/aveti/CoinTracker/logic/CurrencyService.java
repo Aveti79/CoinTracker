@@ -1,11 +1,8 @@
 package com.aveti.CoinTracker.logic;
 
-import com.aveti.CoinTracker.model.Coin;
 import com.aveti.CoinTracker.model.Currency;
 import com.aveti.CoinTracker.model.CurrencyDTO;
-import com.aveti.CoinTracker.model.FiatCurrency;
-import com.aveti.CoinTracker.model.repository.CoinRepository;
-import com.aveti.CoinTracker.model.repository.FiatCurrencyRepository;
+import com.aveti.CoinTracker.model.repository.CurrencyRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,15 +11,13 @@ import java.util.List;
 @Service
 public class CurrencyService {
 
-    private final CoinRepository coinRepository;
-    private final FiatCurrencyRepository fiatRepository;
+    private final CurrencyRepository currencyRepository;
     @SuppressWarnings("FieldMayBeFinal")
     private List<CurrencyDTO> suggestionsList = new ArrayList<>();
     private String lastKeyword;
 
-    CurrencyService(final CoinRepository coinRepository, final FiatCurrencyRepository fiatRepository) {
-        this.coinRepository = coinRepository;
-        this.fiatRepository = fiatRepository;
+    CurrencyService(final CurrencyRepository currencyRepository) {
+        this.currencyRepository = currencyRepository;
     }
 
     public List<CurrencyDTO> currencyAutocomplete(String keyword) {
@@ -41,11 +36,8 @@ public class CurrencyService {
                 suggestionsList.clear();
             }
         }
-        for (FiatCurrency currency : fiatRepository.findCurrenciesByKeyword(keyword.toLowerCase())) {
+        for (Currency currency : currencyRepository.findCurrencyByKeyword(keyword.toLowerCase())) {
             getResultChangedToDTO(currencyDTOList,currency);
-        }
-        for (Coin coin : coinRepository.findCoinsByKeyword(keyword.toLowerCase())) {
-            getResultChangedToDTO(currencyDTOList, coin);
         }
         suggestionsList.addAll(currencyDTOList);
         lastKeyword=keyword;

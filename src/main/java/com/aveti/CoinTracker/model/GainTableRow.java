@@ -2,7 +2,7 @@ package com.aveti.CoinTracker.model;
 
 public class GainTableRow {
 
-    private Coin currency;
+    private Currency currency;
     private double amount;
     private double averageBuyPrice;
     private double summaryPrice;
@@ -16,11 +16,11 @@ public class GainTableRow {
     public GainTableRow() {
     }
 
-    public Coin getCurrency() {
+    public Currency getCurrency() {
         return currency;
     }
 
-    public void setCurrency(final Coin currency) {
+    public void setCurrency(final Currency currency) {
         this.currency = currency;
     }
 

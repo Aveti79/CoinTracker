@@ -1,5 +1,6 @@
 package com.aveti.CoinTracker.logic;
 
+import com.aveti.CoinTracker.model.Currency;
 import com.aveti.CoinTracker.model.Transaction;
 import com.aveti.CoinTracker.model.repository.TransactionRepository;
 import org.springframework.stereotype.Service;
@@ -38,7 +39,7 @@ public class TransactionService {
         return transactionRepository.findTransactionBySellCurrency(currency);
     }
 
-    public List<String> findAllCoinsUsedInTransactions() {
+    public List<Currency> findAllCoinsUsedInTransactions() {
         return transactionRepository.findAll().stream().map(Transaction::getBuyCurrency).collect(Collectors.toList());
     }
 

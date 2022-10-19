@@ -1,7 +1,7 @@
 package com.aveti.CoinTracker.logic;
 
 import com.aveti.CoinTracker.model.GainTableRow;
-import com.aveti.CoinTracker.model.repository.CoinRepository;
+import com.aveti.CoinTracker.model.repository.CurrencyRepository;
 import com.aveti.CoinTracker.model.repository.TransactionRepository;
 import org.springframework.stereotype.Service;
 
@@ -12,12 +12,12 @@ import java.util.List;
 public class GainsTableService {
 
     private final TransactionRepository transactionRepository;
-    private final CoinRepository coinRepository;
+    private final CurrencyRepository currencyRepository;
     private final CoinGeckoApiService apiService;
 
-    GainsTableService(final TransactionRepository transactionRepository, final CoinRepository coinRepository, final CoinGeckoApiService apiService) {
+    GainsTableService(final TransactionRepository transactionRepository, final CurrencyRepository currencyRepository, final CoinGeckoApiService apiService) {
         this.transactionRepository = transactionRepository;
-        this.coinRepository = coinRepository;
+        this.currencyRepository = currencyRepository;
         this.apiService = apiService;
     }
 
@@ -32,7 +32,7 @@ public class GainsTableService {
 
     public GainTableRow createTableRow(String currency) {
         GainTableRow result = new GainTableRow();
-        result.setCurrency(coinRepository.findById(currency));
+        result.setCurrency(currencyRepository.findById(currency));
         result.setAmount(transactionRepository.getSumOfBuyAmount(currency));
         result.setAverageBuyPrice(transactionRepository.getUnitCostOfCurrency(currency));
         result.setSummaryPrice(transactionRepository.getSumOfSellAmount(currency));

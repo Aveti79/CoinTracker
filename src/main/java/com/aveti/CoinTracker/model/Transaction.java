@@ -16,11 +16,17 @@ public class Transaction {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime transactionTime;
     private double buyAmount;
-    private String buyCurrency; //todo: rethink Coin class
+    @ManyToOne
+    @JoinColumn(name = "id", insertable = false, updatable = false)
+    private Currency buyCurrency;
     private double sellAmount;
-    private String sellCurrency;
+    @ManyToOne
+    @JoinColumn(name = "id", insertable = false, updatable = false)
+    private Currency sellCurrency;
     private double feeAmount;
-    private String feeCurrency;
+    @ManyToOne
+    @JoinColumn(name = "id", insertable = false, updatable = false)
+    private Currency feeCurrency;
     private String comment;
 
     public Transaction() {
@@ -29,9 +35,9 @@ public class Transaction {
     public Transaction(final String type,
                        final LocalDateTime transactionTime,
                        final double buyAmount,
-                       final String buyCurrency,
+                       final Currency buyCurrency,
                        final double sellAmount,
-                       final String sellCurrency) {
+                       final Currency sellCurrency) {
         this.type = type;
         this.transactionTime = transactionTime;
         this.buyAmount = buyAmount;
@@ -43,11 +49,11 @@ public class Transaction {
     public Transaction(final String type,
                 final LocalDateTime transactionTime,
                 final double buyAmount,
-                final String buyCurrency,
+                final Currency buyCurrency,
                 final double sellAmount,
-                final String sellCurrency,
+                final Currency sellCurrency,
                 final double feeAmount,
-                final String feeCurrency,
+                final Currency feeCurrency,
                 final String comment) {
         this.type = type;
         this.transactionTime = transactionTime;
@@ -92,11 +98,11 @@ public class Transaction {
         this.buyAmount = buyAmount;
     }
 
-    public String getBuyCurrency() {
+    public Currency getBuyCurrency() {
         return buyCurrency;
     }
 
-    public void setBuyCurrency(final String buyCurrency) {
+    public void setBuyCurrency(final Currency buyCurrency) {
         this.buyCurrency = buyCurrency;
     }
 
@@ -108,11 +114,11 @@ public class Transaction {
         this.sellAmount = sellAmount;
     }
 
-    public String getSellCurrency() {
+    public Currency getSellCurrency() {
         return sellCurrency;
     }
 
-    public void setSellCurrency(final String sellCurrency) {
+    public void setSellCurrency(final Currency sellCurrency) {
         this.sellCurrency = sellCurrency;
     }
 
@@ -124,11 +130,11 @@ public class Transaction {
         this.feeAmount = feeAmount;
     }
 
-    public String getFeeCurrency() {
+    public Currency getFeeCurrency() {
         return feeCurrency;
     }
 
-    public void setFeeCurrency(final String feeCurrency) {
+    public void setFeeCurrency(final Currency feeCurrency) {
         this.feeCurrency = feeCurrency;
     }
 

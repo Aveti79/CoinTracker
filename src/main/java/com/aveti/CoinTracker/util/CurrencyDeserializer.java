@@ -1,7 +1,7 @@
 package com.aveti.CoinTracker.util;
 
-import com.aveti.CoinTracker.model.Coin;
-import com.aveti.CoinTracker.model.CoinList;
+import com.aveti.CoinTracker.model.CurrencyList;
+import com.aveti.CoinTracker.model.Currency;
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -13,21 +13,21 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class CoinDeserializer extends StdDeserializer<Coin> {
+public class CurrencyDeserializer extends StdDeserializer<Currency> {
 
-    public CoinDeserializer() {
+    public CurrencyDeserializer() {
         this(null);
     }
 
-    public CoinDeserializer(final Class<?> vc) {
+    public CurrencyDeserializer(final Class<?> vc) {
         super(vc);
     }
 
     @Override
-    public CoinList deserialize(final JsonParser jsonParser, final DeserializationContext deserializationContext)
+    public CurrencyList deserialize(final JsonParser jsonParser, final DeserializationContext deserializationContext)
             throws IOException, JacksonException {
 
-        List<Coin> coinsList = new ArrayList<>();
+        List<Currency> coinsList = new ArrayList<>();
         JsonNode node = jsonParser.getCodec().readTree(jsonParser);
         Iterator<JsonNode> jsonCoinList = node.elements();
         while (jsonCoinList.hasNext()) {
@@ -35,9 +35,9 @@ public class CoinDeserializer extends StdDeserializer<Coin> {
             String id = element.get("id").asText();
             String symbol = element.get("symbol").asText();
             String name = element.get("name").asText();
-            coinsList.add(new Coin(id, symbol, name));
+            coinsList.add(new Currency(id, symbol, name));
         }
 
-        return new CoinList(coinsList);
+        return new CurrencyList(coinsList);
     }
 }
