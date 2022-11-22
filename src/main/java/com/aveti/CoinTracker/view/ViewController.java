@@ -2,14 +2,17 @@ package com.aveti.CoinTracker.view;
 
 import com.aveti.CoinTracker.logic.GainsTableService;
 import com.aveti.CoinTracker.logic.TransactionService;
-import com.aveti.CoinTracker.model.Transaction;
+import com.aveti.CoinTracker.model.projection.TransactionWriteModel;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+
 import javax.validation.Valid;
 
 @Controller
@@ -31,12 +34,12 @@ public class ViewController {
 
     @GetMapping("/addTransaction")
     String viewAddTransactionForm(Model model) {
-        model.addAttribute("transaction", new Transaction());
+        model.addAttribute("transaction", new TransactionWriteModel());
         return "addTransactionPanel";
     }
 
     @PostMapping(path = "/addTransaction", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.TEXT_HTML_VALUE)
-    String addTransaction(@ModelAttribute("transaction") @Valid Transaction toPost,
+    String addTransaction(@ModelAttribute("transaction") @Valid TransactionWriteModel toPost,
                           BindingResult result,
                           Model model) {
         if (result.hasErrors()) {
@@ -48,13 +51,20 @@ public class ViewController {
 
     @GetMapping("/gains")
     String viewGainsAndLossTable(Model model) {
-        model.addAttribute("gainTableRows", gainsTableService.getTableRows());
+        var tableRows = gainsTableService.getTableRows();
+        model.addAttribute("gainTableRows", tableRows);
+        model.addAttribute("gainTableRowsSum", gainsTableService.getTableRowsSum(tableRows));
         return "gainsTable";
     }
 
     @ModelAttribute("transaction")
-    public Transaction getTransaction() {
-        return new Transaction();
+    public TransactionWriteModel getTransaction() {
+        return new TransactionWriteModel();
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    ResponseEntity<?> IllegalArgumentExceptionHandler(IllegalArgumentException e) {
+        return ResponseEntity.badRequest().body(e.getMessage());
     }
 
 }
