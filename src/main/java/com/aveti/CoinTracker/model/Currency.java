@@ -12,14 +12,16 @@ public class Currency {
     private String id;
     private String symbol;
     private String name;
+    private String type;
 
     public Currency() {
     }
 
-    public Currency(final String id, final String symbol, final String name) {
+    public Currency(final String id, final String symbol, final String name, final String type) {
         this.id = id;
         this.symbol = symbol;
         this.name = name;
+        this.type = type;
     }
 
     public String getId() {
@@ -46,25 +48,33 @@ public class Currency {
         this.name = name;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(final String type) {
+        this.type = type;
+    }
+
     @Override
     public String toString() {
-        return getSymbol().toUpperCase() + " " + getName();
+        return getName();
     }
 
     public static List<Currency> getAllSupportedFiat() {
         List<Currency> fiatList = new ArrayList<>();
-        fiatList.add(new Currency("usd", "USD", "US Dollar"));
-        fiatList.add(new Currency("eur", "EUR", "Euro"));
-        fiatList.add(new Currency("pln", "PLN", "Polish Zloty"));
-        fiatList.add(new Currency("rub", "RUB", "Russian Ruble"));
-        fiatList.add(new Currency("krw", "KRW", "South Korean Won"));
-        fiatList.add(new Currency("cny", "CNY", "Chinese Yuan"));
-        fiatList.add(new Currency("jpy", "JPY", "Japanese Yen"));
-        fiatList.add(new Currency("aud", "AUD", "Australian Dollar"));
-        fiatList.add(new Currency("chf", "CHF", "Swiss Franc"));
-        fiatList.add(new Currency("gbp", "GBP", "British Pound Sterling"));
-        fiatList.add(new Currency("try", "TRY", "Turkish Lira"));
-        fiatList.add(new Currency("uah", "UAH", "Ukrainian Hryvnia"));
+        fiatList.add(new Currency("usd", "usd", "US Dollar", "FIAT"));
+        fiatList.add(new Currency("eur", "eur", "Euro", "FIAT"));
+        fiatList.add(new Currency("pln", "pln", "Polish Zloty", "FIAT"));
+        fiatList.add(new Currency("rub", "rub", "Russian Ruble", "FIAT"));
+        fiatList.add(new Currency("krw", "krw", "South Korean Won", "FIAT"));
+        fiatList.add(new Currency("cny", "cny", "Chinese Yuan", "FIAT"));
+        fiatList.add(new Currency("jpy", "jpy", "Japanese Yen", "FIAT"));
+        fiatList.add(new Currency("aud", "aud", "Australian Dollar", "FIAT"));
+        fiatList.add(new Currency("chf", "chf", "Swiss Franc", "FIAT"));
+        fiatList.add(new Currency("gbp", "gbp", "British Pound Sterling", "FIAT"));
+        fiatList.add(new Currency("try", "try", "Turkish Lira", "FIAT"));
+        fiatList.add(new Currency("uah", "uah", "Ukrainian Hryvnia", "FIAT"));
         return fiatList;
     }
 }

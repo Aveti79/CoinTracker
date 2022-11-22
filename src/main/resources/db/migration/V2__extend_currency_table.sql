@@ -1,0 +1,1 @@
+alter table currencies add column if not exists currency_type varchar(16);

@@ -35,7 +35,8 @@ public class CurrencyDeserializer extends StdDeserializer<Currency> {
             String id = element.get("id").asText();
             String symbol = element.get("symbol").asText();
             String name = element.get("name").asText();
-            coinsList.add(new Currency(id, symbol, name));
+            String type = "COIN";
+            coinsList.add(new Currency(id, symbol, name, type));
         }
 
         return new CurrencyList(coinsList);
