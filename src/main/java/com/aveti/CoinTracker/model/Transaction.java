@@ -17,17 +17,19 @@ public class Transaction {
     private LocalDateTime transactionTime;
     private double buyAmount;
     @ManyToOne
-    @JoinColumn(name = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "buyCurrency")
     private Currency buyCurrency;
     private double sellAmount;
     @ManyToOne
-    @JoinColumn(name = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "sellCurrency")
     private Currency sellCurrency;
     private double feeAmount;
     @ManyToOne
-    @JoinColumn(name = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "feeCurrency")
     private Currency feeCurrency;
     private String comment;
+    private double buyValueInUsd;
+    private double sellValueInUsd;
 
     public Transaction() {
     }
@@ -144,5 +146,21 @@ public class Transaction {
 
     public void setComment(final String comment) {
         this.comment = comment;
+    }
+
+    public double getSellValueInUsd() {
+        return sellValueInUsd;
+    }
+
+    public void setSellValueInUsd(final double sellValueInUsd) {
+        this.sellValueInUsd = sellValueInUsd;
+    }
+
+    public double getBuyValueInUsd() {
+        return buyValueInUsd;
+    }
+
+    public void setBuyValueInUsd(final double buyValueInUsd) {
+        this.buyValueInUsd = buyValueInUsd;
     }
 }
