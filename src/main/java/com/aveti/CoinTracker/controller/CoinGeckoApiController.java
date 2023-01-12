@@ -1,7 +1,6 @@
 package com.aveti.CoinTracker.controller;
 
 import com.aveti.CoinTracker.logic.CoinGeckoApiService;
-import com.aveti.CoinTracker.logic.CurrencyService;
 import com.aveti.CoinTracker.logic.TransactionService;
 import com.aveti.CoinTracker.model.CurrencyList;
 import com.aveti.CoinTracker.model.CoinPrice;
@@ -16,8 +15,8 @@ import java.util.List;
 @RestController
 public class CoinGeckoApiController {
 
-    private TransactionService transactionService;
-    private CoinGeckoApiService apiService;
+    private final TransactionService transactionService;
+    private final CoinGeckoApiService apiService;
     private RestTemplate restTemplate = new RestTemplate();
     public static final String baseApiUrl = "https://api.coingecko.com/api/v3";
 
@@ -53,4 +52,8 @@ public class CoinGeckoApiController {
         return coins;
     }
 
+    @GetMapping("/coin_history_price")
+    public Double getHistoryCoinPrice() {
+        return apiService.getCoinHistoricalPrice("bitcoin","27-09-2021");
+    }
 }
