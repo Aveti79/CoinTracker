@@ -1,0 +1,1 @@
+alter table transactions add column if not exists sell_value_in_usd double precision default 0.0;

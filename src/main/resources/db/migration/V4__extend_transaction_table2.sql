@@ -1,0 +1,1 @@
+alter table transactions add column if not exists buy_value_in_usd double precision default 0.0;
