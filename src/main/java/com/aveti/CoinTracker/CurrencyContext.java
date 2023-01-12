@@ -8,9 +8,12 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
+import java.util.Locale;
+
 @Component
 public class CurrencyContext implements ApplicationListener<ContextRefreshedEvent> {
     private static final Logger logger = LoggerFactory.getLogger(CurrencyContext.class);
+    public static String LOCALE_CURRENCY = java.util.Currency.getInstance(Locale.US).getCurrencyCode().toLowerCase();
 
     private final CurrencyRepository currencyRepository;
 
