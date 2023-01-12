@@ -24,7 +24,7 @@ header nav > a, header nav > a:visited {
 }
 
 header nav {
-    margin: 0 0 1em;
+    margin: 0 0 12px;
 }
 
 header nav li {

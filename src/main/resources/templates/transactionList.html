@@ -4,10 +4,30 @@
     <meta charset="UTF-8">
     <title>Coin Tracker - Transactions</title>
     <link rel="stylesheet" type="text/css" href="/awesome_css.css">
+    <link rel="stylesheet" type="text/css" href="/headerStyling.css">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <style>
+        h3 {
+            margin: 12px 24px;
+        }
+
+        table {
+            margin: 12px 24px;
+            width: calc(100% - 48px);
+            display: table;
+        }
+
+        thead > tr > th {
+            vertical-align: middle;
+        }
+    </style>
 </head>
 <body>
-<h2>Lista transakcji</h2>
+<div th:replace="header.html :: header">
+    <h1>Welcome to Coin Tracker App</h1>
+    <h4>Data is provided by CoinGecko API</h4>
+</div>
+<h3>Lista transakcji</h3>
 <table>
     <thead>
     <tr>
@@ -17,7 +37,7 @@
         <th>Waluta zakupu</th>
         <th>Sprzedaż</th>
         <th>Waluta sprzedaży</th>
-        <th>Opłata tranakcyjna</th>
+        <th>Opłata transakcyjna</th>
         <th>Waluta opłaty transakcyjnej</th>
         <th>Komentarz</th>
     </tr>
