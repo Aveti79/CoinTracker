@@ -7,14 +7,15 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CurrencyRepository extends JpaRepository<Currency, Integer> {
 
-    Currency findById(String currency);
+    Optional<Currency> findById(String currency);
 
     boolean existsById(String currency);
 
-    @Query("select c from Currency c where c.id like concat(:keyword,'%') or c.symbol like concat(:keyword,'%')")
+    @Query("select c from Currency c where c.id like concat(:keyword,'%') or c.symbol like concat(:keyword,'%') order by length(c.symbol), length(c.id), c.symbol")
     List<Currency> findCurrencyByKeyword(@Param("keyword") String keyword);
 }
