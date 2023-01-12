@@ -1,7 +1,10 @@
 package com.aveti.CoinTracker.controller;
 
 import com.aveti.CoinTracker.logic.TransactionService;
+import com.aveti.CoinTracker.model.Currency;
 import com.aveti.CoinTracker.model.Transaction;
+import com.aveti.CoinTracker.model.projection.TransactionWriteModel;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,13 +43,20 @@ public class  TransactionController {
     }
 
     @PostMapping("/add")
-    ResponseEntity<Transaction> addTransaction(@RequestBody Transaction transactionToAdd) {
+    ResponseEntity<Transaction> addTransaction(@RequestBody TransactionWriteModel transactionToAdd) {
         Transaction result = service.createTransaction(transactionToAdd);
         return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
     }
 
     @GetMapping("/buy_coins")
-    Double getDistinctBuyCurrencies() {
-        return service.getSumOfCurrency();
+    List<Currency> getDistinctBuyCurrencies() {
+        return service.getUsedCurrencies();
+    }
+
+    //Development
+    @GetMapping("/update_trades")
+    ResponseEntity<?> updateTransactionsPrices() {
+        service.updateBuyValuesInUsd();
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
