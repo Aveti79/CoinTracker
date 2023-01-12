@@ -2,10 +2,14 @@ package com.aveti.CoinTracker.util;
 
 import org.springframework.stereotype.Service;
 import org.thymeleaf.exceptions.TemplateProcessingException;
-import org.thymeleaf.util.NumberUtils;
 
+import java.text.NumberFormat;
 import java.util.Locale;
 
+/**
+ * Custom implementation of numbers.formatCurrency() from Thymleaf,
+ * with added dynamic precision for small numbers.
+ */
 @Service
 public class CurrencyFormatter {
 
@@ -18,8 +22,14 @@ public class CurrencyFormatter {
         } else if (locale == null) {
             return null;
         }
+        var nf = NumberFormat.getCurrencyInstance(locale);
+        if (Math.abs(target.doubleValue())<=0.1) {
+            nf.setMaximumFractionDigits(4);
+        } else if (Math.abs(target.doubleValue())<=0.01) {
+            nf.setMaximumFractionDigits(8);
+        }
         try {
-            return NumberUtils.formatCurrency(target, locale);
+            return nf.format(target);
         } catch (final Exception e) {
             throw new TemplateProcessingException("Error formatting currency", e);
         }
