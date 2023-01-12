@@ -4,18 +4,38 @@
     <meta charset="UTF-8">
     <title>Coin Tracker - Zyski zrealizowane i niezrealizowane</title>
     <link rel="stylesheet" type="text/css" href="/awesome_css.css">
+    <link rel="stylesheet" type="text/css" href="/headerStyling.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+        h3 {
+            margin: 12px 24px;
+        }
+
+        table {
+            margin: 12px 24px;
+            width: calc(100% - 48px);
+            display: table;
+        }
+
+        thead > tr > th {
+            vertical-align: middle;
+        }
+    </style>
 </head>
 <body>
-<h2>Zysk/strata zrealizowane i niezrealizowane dla każdej waluty</h2>
+<div th:replace="header.html :: header">
+    <h1>Welcome to Coin Tracker App</h1>
+    <h4>Data is provided by CoinGecko API</h4>
+</div>
+<h3>Zysk/strata zrealizowane i niezrealizowane dla każdej waluty</h3>
 <table>
     <thead>
         <tr>
             <th>Waluta</th>
             <th>Kwota</th>
             <th>Koszt jednostkowy</th>
-            <th>Koszt zakupu</th>
             <th>Aktualna cena<br>i zmiana % 24h</th>
+            <th>Koszt zakupu</th>
             <th>Aktualna wartość</th>
             <th>Stopa zwrotu</th>
             <th>Zysk/strata niezrealizowane</th>
@@ -27,15 +47,26 @@
         <tr th:each="tableRow : ${gainTableRows}">
             <td th:text="${tableRow.getCurrency().getName()}"></td>
             <td th:text="${@decimalFormatter.formatDecimalStripTrailingZeros(tableRow.getAmount(), 1, 8)}"></td>
-            <td th:text="${@currencyFormatter.formatCurrency(@decimalFormatter.formatDecimalStripTrailingZeros(tableRow.getAverageBuyPrice(), 1, 8), #locale.US)}"></td>
-            <td th:text="${@decimalFormatter.formatDecimalStripTrailingZeros(tableRow.getSummaryPrice(), 1, 8)}"></td>
-            <td th:text="${tableRow.getActualPrice()} + ' ' + ${#numbers.formatPercent(tableRow.getPriceChange24h()/100, 1, 2)}"></td>
-            <td th:text="${@currencyFormatter.formatCurrency(@decimalFormatter.formatDecimalStripTrailingZeros(tableRow.getActualValue(), 1, 8), #locale.US)}"></td>
+            <td th:text="${@currencyFormatter.formatCurrency(tableRow.getAverageBuyPrice(), #locale.US)}"></td>
+            <td th:text="${@currencyFormatter.formatCurrency(tableRow.getActualPrice(), #locale.US)} + ' '
+                            + ${#numbers.formatPercent(tableRow.getPriceChange24h()/100, 1, 2)}"></td>
+            <td th:text="${@currencyFormatter.formatCurrency(tableRow.getSummaryPrice(), #locale.US)}"></td>
+            <td th:text="${@currencyFormatter.formatCurrency(tableRow.getActualValue(), #locale.US)}"></td>
             <td th:text="${#numbers.formatPercent(tableRow.getPercentageValueChange(), 1, 2)}"></td>
-            <td th:text="${tableRow.getUnrealizedGains()}"></td>
-            <td th:text="${tableRow.getUnrealizedGains()}"></td>
+            <td th:text="${@currencyFormatter.formatCurrency(tableRow.getUnrealizedGains(), #locale.US)}"></td>
+            <td th:text="${@currencyFormatter.formatCurrency(tableRow.getRealizedGains(), #locale.US)}"></td>
         </tr>
     </tbody>
+    <tfoot>
+        <tr>
+            <th colspan="4">Podsumowanie:</th>
+            <th th:text="${@currencyFormatter.formatCurrency(gainTableRowsSum.get('summaryPrice'), #locale.US)}"></th>
+            <th th:text="${@currencyFormatter.formatCurrency(gainTableRowsSum.get('actualValue'), #locale.US)}"></th>
+            <th th:text="${#numbers.formatPercent(gainTableRowsSum.get('valueChange'), 1, 2)}"></th>
+            <th th:text="${@currencyFormatter.formatCurrency(gainTableRowsSum.get('unrealizedGains'), #locale.US)}"></th>
+            <th th:text="${@currencyFormatter.formatCurrency(gainTableRowsSum.get('realizedGains'), #locale.US)}"></th>
+        </tr>
+    </tfoot>
 </table>
 </body>
 </html>
