@@ -108,11 +108,11 @@ public class TransactionService {
     }
 
     public List<Transaction> findTransactionsByBuyCurrency(String currency) {
-        return transactionRepository.findTransactionByBuyCurrency(currency);
+        return transactionRepository.findTransactionByBuyCurrencyIdOrderByTransactionTime(currency);
     }
 
     public List<Transaction> findTransactionsBySellCurrency(String currency) {
-        return transactionRepository.findTransactionBySellCurrency(currency);
+        return transactionRepository.findTransactionBySellCurrencyIdOrderByTransactionTime(currency);
     }
 
     public List<Currency> findAllCoinsUsedInTransactions() {
