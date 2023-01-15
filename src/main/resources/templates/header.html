@@ -10,18 +10,18 @@
 <header>
     <nav>
         <a href="/">
-            <h1 th:text="#{greeting.h1}">Welcome to Coin Tracker</h1>
-            <p th:text="#{greeting.p}">Data is provided by CoinGecko API</p>
+            <h1 th:text="#{header.greeting.main}">Welcome to Coin Tracker</h1>
+            <p th:text="#{header.greeting.info}">Data is provided by CoinGecko API</p>
         </a>
         <ul>
             <li>
-                <a href="/transactions">Lista transakcji</a>
+                <a th:text="#{header.navbar.transactions}" href="/transactions">Lista transakcji</a>
             </li>
             <li>
-                <a href="/addTransaction">Dodaj transakcję</a>
+                <a th:text="#{header.navbar.addtransaction}" href="/addTransaction">Dodaj transakcję</a>
             </li>
             <li>
-                <a href="/gains">Tabela zysków i strat</a>
+                <a th:text="#{header.navbar.gainsorloss}" href="/gains">Tabela zysków i strat</a>
             </li>
         </ul>
     </nav>
