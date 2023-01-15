@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Coin Tracker2</title>
+    <title>Coin Tracker</title>
     <link rel="stylesheet" type="text/css" href="/awesome_css.css">
     <link rel="stylesheet" type="text/css" href="/headerStyling.css">
 </head>
@@ -10,8 +10,8 @@
 <header>
     <nav>
         <a href="/">
-            <h1>Welcome to Coin Tracker</h1>
-            <p>Data is provided by CoinGecko API</p>
+            <h1 th:text="#{greeting.h1}">Welcome to Coin Tracker</h1>
+            <p th:text="#{greeting.p}">Data is provided by CoinGecko API</p>
         </a>
         <ul>
             <li>
