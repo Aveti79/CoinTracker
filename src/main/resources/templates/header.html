@@ -13,6 +13,14 @@
             <h1 th:text="#{header.greeting.main}">Welcome to Coin Tracker</h1>
             <p th:text="#{header.greeting.info}">Data is provided by CoinGecko API</p>
         </a>
+        <div class="lang_select">
+            <label>Language:
+                <select onchange="langChange(value)">
+                    <option value="en">English</option>
+                    <option value="pl">Polish</option>
+                </select>
+            </label>
+        </div>
         <ul>
             <li>
                 <a th:text="#{header.navbar.transactions}" href="/transactions">Lista transakcji</a>
@@ -27,4 +35,5 @@
     </nav>
 </header>
 </body>
+<script type="application/javascript" src="/languageChanger.js"></script>
 </html>

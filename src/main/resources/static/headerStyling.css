@@ -66,3 +66,10 @@ nav a:visited {
 nav a {
     color: white;
 }
+
+.lang_select {
+    font-size: 15px;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+}
