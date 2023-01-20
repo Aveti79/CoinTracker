@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Coin Tracker - Add Transaction</title>
+    <title th:text="#{atp.title}">Coin Tracker - Add Transaction</title>
     <link rel="stylesheet" type="text/css" href="/awesome_css.css">
     <link rel="stylesheet" type="text/css" href="/headerStyling.css">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
@@ -58,41 +58,41 @@
     <h1>Welcome to Coin Tracker App</h1>
     <h4>Data is provided by CoinGecko API</h4>
 </div>
-<h3>Dodaj transakcję</h3>
+<h3 th:text="#{atp.addtransaction}">Add transaction</h3>
 <!--/*@thymesVar id="transaction" type="com.aveti.CoinTracker.model.projection.TransactionWriteModel"*/-->
 <form action="#" method="post" th:action="@{/addTransaction}" th:object="${transaction}">
     <fieldset>
-        <legend>Typ transakcji i data</legend>
-        <label class="leftInput">Typ:
+        <legend th:text="#{atp.typeanddate}">Transaction type and date</legend>
+        <label class="leftInput"><span th:text="#{atp.transactiontype}" th:remove="tag">Type:</span>
             <select style="width: 100%" th:field="*{type}" name="type">
-                <option value="Handel">Handel</option>
-                <option value="Wpłata">Wpłata</option>
-                <option value="Wypłata">Wypłata</option>
-                <option value="Transfer">Transfer</option>
+                <option th:text="#{atp.transactiontype.t1}" value="Handel">Trade</option>
+                <option th:text="#{atp.transactiontype.t2}" value="Wpłata">Deposit</option>
+                <option th:text="#{atp.transactiontype.t3}" value="Wypłata">Withdraw</option>
+                <option th:text="#{atp.transactiontype.t4}" value="Transfer">Transfer</option>
             </select>
         </label>
-        <label class="rightInput" style="margin-top: 0">Data:
+        <label class="rightInput" style="margin-top: 0"><span th:text="#{atp.date}" th:remove="tag">Date:</span>
             <input type="datetime-local" step="1" th:field="*{transactionTime}" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}" required>
         </label>
     </fieldset>
     <p class="C(red)" th:if="${#fields.hasAnyErrors()}" th:errors="*{all}">
     <div class="inputFieldset">
         <fieldset>
-            <legend style="color: mediumseagreen">Zakup</legend>
-            <label>Ilość:
+            <legend th:text="#{atp.buy}" style="color: mediumseagreen">Buy</legend>
+            <label><span th:text="#{atp.amount}" th:remove="tag">Amount:</span>
                 <input type="number" step="any" min="0" th:field="*{buyAmount}">
             </label>
-            <label>Waluta:
+            <label><span th:text="#{atp.currency}" th:remove="tag">Currency:</span>
                 <input class="currency" type="text">
                 <input class="currency_id" type="text"  th:field="*{buyCurrency}" th:errorclass="'Bdc(red)'">
             </label>
         </fieldset>
         <fieldset>
-            <legend style="color: indianred">Sprzedaż</legend>
-            <label>Ilość:
+            <legend th:text="#{atp.sell}" style="color: indianred">Sell</legend>
+            <label><span th:text="#{atp.amount}" th:remove="tag">Amount:</span>
                 <input type="number" step="any" min="0" th:field="*{sellAmount}">
             </label>
-            <label>Waluta:
+            <label><span th:text="#{atp.currency}" th:remove="tag">Currency:</span>
                 <input class="currency" type="text">
                 <input class="currency_id" type="text" th:field="*{sellCurrency}">
             </label>
@@ -100,30 +100,33 @@
     </div>
     <div class="inputFieldset">
         <fieldset>
-            <legend style="color: goldenrod">Opłaty transakcyjne<small> - opcjonalne</small></legend>
-            <label>Ilość:
+            <legend style="color: goldenrod"><span th:text="#{atp.fee}" th:remove="tag">Trade fee</span> <small th:text="#{atp.additioanlinfo.optional}"> - optional</small></legend>
+            <label><span th:text="#{atp.amount}" th:remove="tag">Amount:</span>
                 <input type="number" step="any" min="0" th:field="*{feeAmount}">
             </label>
-            <label>Waluta:
+            <label><span th:text="#{atp.currency}" th:remove="tag">Currency:</span>
                 <input class="currency" type="text">
                 <input class="currency_id" type="text" th:field="*{feeCurrency}">
             </label>
         </fieldset>
         <fieldset>
-            <legend>Dodatkowe informacje<small> - opcjonalne</small></legend>
-            <label>Komentarz:<br>
+            <legend><span th:text="#{atp.additionalinfo}" th:remove="tag">Additional info</span> <small th:text="#{atp.additioanlinfo.optional}"> - optional</small></legend>
+            <label><span th:text="#{atp.comment}" th:remove="tag">Comment:</span><br>
                 <textarea maxlength="250" rows="4" th:field="*{comment}">
                 </textarea>
             </label>
         </fieldset>
     </div>
     <div class="buttonsCenter">
-        <button type="submit">Dodaj</button>
-        <button type="reset">Wyczyść formularz</button>
+        <button th:text="#{atp.button.add}" type="submit">Add</button>
+        <button th:text="#{atp.button.reset}" type="reset">Reset form</button>
     </div>
 </form>
 <footer>
-    <small>Data provided by <a href="https://www.coingecko.com/en/api">Coin Gecko API</a></small>
+    <small>
+        <span th:text="#{footer.api.info}" th:remove="tag">Data provided by </span>
+        <a th:text="#{footer.api.info.href}" href="https://www.coingecko.com/en/api">Coin Gecko API</a>
+    </small>
 </footer>
 </body>
 <script>
@@ -150,4 +153,5 @@
         })
     })
 </script>
+<script type="application/javascript" src="/languageChanger.js"></script>
 </html>

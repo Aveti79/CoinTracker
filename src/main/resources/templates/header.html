@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Coin Tracker2</title>
+    <title>Coin Tracker</title>
     <link rel="stylesheet" type="text/css" href="/awesome_css.css">
     <link rel="stylesheet" type="text/css" href="/headerStyling.css">
 </head>
@@ -10,21 +10,30 @@
 <header>
     <nav>
         <a href="/">
-            <h1>Welcome to Coin Tracker</h1>
-            <p>Data is provided by CoinGecko API</p>
+            <h1 th:text="#{header.greeting.main}">Welcome to Coin Tracker</h1>
+            <p th:text="#{header.greeting.info}">Data is provided by CoinGecko API</p>
         </a>
+        <div class="lang_select">
+            <label><span th:text="#{header.language}" th:remove="tag">Language:</span>
+                <select onchange="langChange(value)">
+                    <option th:text="#{header.lang.en}" value="en">English</option>
+                    <option th:text="#{header.lang.pl}" value="pl">Polish</option>
+                </select>
+            </label>
+        </div>
         <ul>
             <li>
-                <a href="/transactions">Lista transakcji</a>
+                <a th:text="#{header.navbar.transactions}" href="/transactions">Transactions list</a>
             </li>
             <li>
-                <a href="/addTransaction">Dodaj transakcję</a>
+                <a th:text="#{header.navbar.addtransaction}" href="/addTransaction">Add Transaction</a>
             </li>
             <li>
-                <a href="/gains">Tabela zysków i strat</a>
+                <a th:text="#{header.navbar.gainsorloss}" href="/gains">Table of gains/loses</a>
             </li>
         </ul>
     </nav>
 </header>
 </body>
+<script type="application/javascript" src="/languageChanger.js"></script>
 </html>

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Coin Tracker - Zyski zrealizowane i niezrealizowane</title>
+    <title th:text="#{gt.title}">Coin Tracker - Gains realized/unrealized</title>
     <link rel="stylesheet" type="text/css" href="/awesome_css.css">
     <link rel="stylesheet" type="text/css" href="/headerStyling.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -27,19 +27,19 @@
     <h1>Welcome to Coin Tracker App</h1>
     <h4>Data is provided by CoinGecko API</h4>
 </div>
-<h3>Zysk/strata zrealizowane i niezrealizowane dla każdej waluty</h3>
+<h3 th:text="#{gt.headerTitle}">Gains/loses realized and unrealized for each currency</h3>
 <table>
     <thead>
         <tr>
-            <th>Waluta</th>
-            <th>Kwota</th>
-            <th>Koszt jednostkowy</th>
-            <th>Aktualna cena<br>i zmiana % 24h</th>
-            <th>Koszt zakupu</th>
-            <th>Aktualna wartość</th>
-            <th>Stopa zwrotu</th>
-            <th>Zysk/strata niezrealizowane</th>
-            <th>Zysk/strata zrealizowane</th>
+            <th th:text="#{gt.th.currency}">Currency</th>
+            <th th:text="#{gt.th.amount}">Remaining amount</th>
+            <th th:text="#{gt.th.unitCost}">Unit cost</th>
+            <th><span th:text="#{gt.th.actualPrice}" th:remove="tag">Current price</span><br th:text="#{gt.th.actualPrice.change}"></th>
+            <th th:text="#{gt.th.totalPrice}">Total price</th>
+            <th th:text="#{gt.th.currentValue}">Current value</th>
+            <th th:text="#{gt.th.change}">Change</th>
+            <th th:text="#{gt.th.gainUnrealized}">Unrealized gain/loss</th>
+            <th th:text="#{gt.th.gainRealized}">Realized gain/loss</th>
         </tr>
     </thead>
     <tbody>
@@ -59,7 +59,7 @@
     </tbody>
     <tfoot>
         <tr>
-            <th colspan="4">Podsumowanie:</th>
+            <th th:text="#{gt.tf.summary}" colspan="4">Summary:</th>
             <th th:text="${@currencyFormatter.formatCurrency(gainTableRowsSum.get('summaryPrice'), #locale.US)}"></th>
             <th th:text="${@currencyFormatter.formatCurrency(gainTableRowsSum.get('actualValue'), #locale.US)}"></th>
             <th th:text="${#numbers.formatPercent(gainTableRowsSum.get('valueChange'), 1, 2)}"></th>
@@ -68,8 +68,12 @@
         </tr>
     </tfoot>
 </table>
-</body>
 <footer>
-    <small>Data provided by <a href="https://www.coingecko.com/en/api">Coin Gecko API</a></small>
+    <small>
+        <span th:text="#{footer.api.info}" th:remove="tag">Data provided by </span>
+        <a th:text="#{footer.api.info.href}" href="https://www.coingecko.com/en/api">Coin Gecko API</a>
+    </small>
 </footer>
+</body>
+<script type="application/javascript" src="/languageChanger.js"></script>
 </html>
