@@ -2,7 +2,7 @@
 <html lang="en" th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Coin Tracker - Transactions</title>
+    <title th:text="#{tl.title}">Coin Tracker - Transactions</title>
     <link rel="stylesheet" type="text/css" href="/awesome_css.css">
     <link rel="stylesheet" type="text/css" href="/headerStyling.css">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
@@ -27,19 +27,19 @@
     <h1>Welcome to Coin Tracker App</h1>
     <h4>Data is provided by CoinGecko API</h4>
 </div>
-<h3>Lista transakcji</h3>
+<h3 th:text="#{tl.headerTitle}">Transactions List</h3>
 <table>
     <thead>
     <tr>
-        <th>Typ</th>
-        <th>Czas transakcji</th>
-        <th>Zakup</th>
-        <th>Waluta zakupu</th>
-        <th>Sprzedaż</th>
-        <th>Waluta sprzedaży</th>
-        <th>Opłata transakcyjna</th>
-        <th>Waluta opłaty transakcyjnej</th>
-        <th>Komentarz</th>
+        <th th:text="#{tl.th.type}">Type</th>
+        <th th:text="#{tl.th.time}">Transaction time</th>
+        <th th:text="#{tl.th.buyAmount}">Buy amount</th>
+        <th th:text="#{tl.th.buyCurrency}">Buy currency</th>
+        <th th:text="#{tl.th.sellAmount}">Sell amount</th>
+        <th th:text="#{tl.th.sellCurrency}">Sell currency</th>
+        <th th:text="#{tl.th.feeAmount}">Fee amount</th>
+        <th th:text="#{tl.th.feeCurrency}">Fee currency</th>
+        <th th:text="#{tl.th.comment}">Comment</th>
     </tr>
     </thead>
     <tbody>
@@ -59,7 +59,10 @@
     <tfoot></tfoot>
 </table>
 <footer>
-    <small>Data provided by <a href="https://www.coingecko.com/en/api">Coin Gecko API</a></small>
+    <small>
+        <span th:text="#{footer.api.info}" th:remove="tag">Data provided by </span>
+        <a th:text="#{footer.api.info.href}" href="https://www.coingecko.com/en/api">Coin Gecko API</a>
+    </small>
 </footer>
 </body>
 <script type="application/javascript" src="/languageChanger.js"></script>

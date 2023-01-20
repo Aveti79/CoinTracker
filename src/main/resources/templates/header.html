@@ -14,22 +14,22 @@
             <p th:text="#{header.greeting.info}">Data is provided by CoinGecko API</p>
         </a>
         <div class="lang_select">
-            <label>Language:
+            <label><span th:text="#{header.language}" th:remove="tag">Language:</span>
                 <select onchange="langChange(value)">
-                    <option value="en">English</option>
-                    <option value="pl">Polish</option>
+                    <option th:text="#{header.lang.en}" value="en">English</option>
+                    <option th:text="#{header.lang.pl}" value="pl">Polish</option>
                 </select>
             </label>
         </div>
         <ul>
             <li>
-                <a th:text="#{header.navbar.transactions}" href="/transactions">Lista transakcji</a>
+                <a th:text="#{header.navbar.transactions}" href="/transactions">Transactions list</a>
             </li>
             <li>
-                <a th:text="#{header.navbar.addtransaction}" href="/addTransaction">Dodaj transakcję</a>
+                <a th:text="#{header.navbar.addtransaction}" href="/addTransaction">Add Transaction</a>
             </li>
             <li>
-                <a th:text="#{header.navbar.gainsorloss}" href="/gains">Tabela zysków i strat</a>
+                <a th:text="#{header.navbar.gainsorloss}" href="/gains">Table of gains/loses</a>
             </li>
         </ul>
     </nav>

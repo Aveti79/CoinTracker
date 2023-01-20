@@ -58,41 +58,41 @@
     <h1>Welcome to Coin Tracker App</h1>
     <h4>Data is provided by CoinGecko API</h4>
 </div>
-<h3 th:text="#{atp.addtransaction}">Dodaj transakcję</h3>
+<h3 th:text="#{atp.addtransaction}">Add transaction</h3>
 <!--/*@thymesVar id="transaction" type="com.aveti.CoinTracker.model.projection.TransactionWriteModel"*/-->
 <form action="#" method="post" th:action="@{/addTransaction}" th:object="${transaction}">
     <fieldset>
-        <legend th:text="#{atp.typeanddate}">Typ transakcji i data</legend>
-        <label class="leftInput"><span th:text="#{atp.transactiontype}" th:remove="tag">Typ:</span>
+        <legend th:text="#{atp.typeanddate}">Transaction type and date</legend>
+        <label class="leftInput"><span th:text="#{atp.transactiontype}" th:remove="tag">Type:</span>
             <select style="width: 100%" th:field="*{type}" name="type">
-                <option th:text="#{atp.transactiontype.t1}" value="Handel">Handel</option>
-                <option th:text="#{atp.transactiontype.t2}" value="Wpłata">Wpłata</option>
-                <option th:text="#{atp.transactiontype.t3}" value="Wypłata">Wypłata</option>
+                <option th:text="#{atp.transactiontype.t1}" value="Handel">Trade</option>
+                <option th:text="#{atp.transactiontype.t2}" value="Wpłata">Deposit</option>
+                <option th:text="#{atp.transactiontype.t3}" value="Wypłata">Withdraw</option>
                 <option th:text="#{atp.transactiontype.t4}" value="Transfer">Transfer</option>
             </select>
         </label>
-        <label class="rightInput" style="margin-top: 0"><span th:text="#{atp.date}" th:remove="tag">Data:</span>
+        <label class="rightInput" style="margin-top: 0"><span th:text="#{atp.date}" th:remove="tag">Date:</span>
             <input type="datetime-local" step="1" th:field="*{transactionTime}" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}" required>
         </label>
     </fieldset>
     <p class="C(red)" th:if="${#fields.hasAnyErrors()}" th:errors="*{all}">
     <div class="inputFieldset">
         <fieldset>
-            <legend th:text="#{atp.buy}" style="color: mediumseagreen">Zakup</legend>
-            <label><span th:text="#{atp.amount}" th:remove="tag">Ilość:</span>
+            <legend th:text="#{atp.buy}" style="color: mediumseagreen">Buy</legend>
+            <label><span th:text="#{atp.amount}" th:remove="tag">Amount:</span>
                 <input type="number" step="any" min="0" th:field="*{buyAmount}">
             </label>
-            <label><span th:text="#{atp.currency}" th:remove="tag">Waluta:</span>
+            <label><span th:text="#{atp.currency}" th:remove="tag">Currency:</span>
                 <input class="currency" type="text">
                 <input class="currency_id" type="text"  th:field="*{buyCurrency}" th:errorclass="'Bdc(red)'">
             </label>
         </fieldset>
         <fieldset>
-            <legend th:text="#{atp.sell}" style="color: indianred">Sprzedaż</legend>
-            <label><span th:text="#{atp.amount}" th:remove="tag">Ilość:</span>
+            <legend th:text="#{atp.sell}" style="color: indianred">Sell</legend>
+            <label><span th:text="#{atp.amount}" th:remove="tag">Amount:</span>
                 <input type="number" step="any" min="0" th:field="*{sellAmount}">
             </label>
-            <label><span th:text="#{atp.currency}" th:remove="tag">Waluta:</span>
+            <label><span th:text="#{atp.currency}" th:remove="tag">Currency:</span>
                 <input class="currency" type="text">
                 <input class="currency_id" type="text" th:field="*{sellCurrency}">
             </label>
@@ -100,26 +100,26 @@
     </div>
     <div class="inputFieldset">
         <fieldset>
-            <legend style="color: goldenrod"><span th:text="#{atp.fee}" th:remove="tag">Opłaty transakcyjne</span> <small th:text="#{atp.additioanlinfo.optional}"> - opcjonalne</small></legend>
-            <label><span th:text="#{atp.amount}" th:remove="tag">Ilość:</span>
+            <legend style="color: goldenrod"><span th:text="#{atp.fee}" th:remove="tag">Trade fee</span> <small th:text="#{atp.additioanlinfo.optional}"> - optional</small></legend>
+            <label><span th:text="#{atp.amount}" th:remove="tag">Amount:</span>
                 <input type="number" step="any" min="0" th:field="*{feeAmount}">
             </label>
-            <label><span th:text="#{atp.currency}" th:remove="tag">Waluta:</span>
+            <label><span th:text="#{atp.currency}" th:remove="tag">Currency:</span>
                 <input class="currency" type="text">
                 <input class="currency_id" type="text" th:field="*{feeCurrency}">
             </label>
         </fieldset>
         <fieldset>
-            <legend><span th:text="#{atp.additionalinfo}" th:remove="tag">Dodatkowe informacje</span> <small th:text="#{atp.additioanlinfo.optional}"> - opcjonalne</small></legend>
-            <label><span th:text="#{atp.comment}" th:remove="tag">Komentarz:</span><br>
+            <legend><span th:text="#{atp.additionalinfo}" th:remove="tag">Additional info</span> <small th:text="#{atp.additioanlinfo.optional}"> - optional</small></legend>
+            <label><span th:text="#{atp.comment}" th:remove="tag">Comment:</span><br>
                 <textarea maxlength="250" rows="4" th:field="*{comment}">
                 </textarea>
             </label>
         </fieldset>
     </div>
     <div class="buttonsCenter">
-        <button th:text="#{atp.button.add}" type="submit">Dodaj</button>
-        <button th:text="#{atp.button.reset}" type="reset">Wyczyść formularz</button>
+        <button th:text="#{atp.button.add}" type="submit">Add</button>
+        <button th:text="#{atp.button.reset}" type="reset">Reset form</button>
     </div>
 </form>
 <footer>
