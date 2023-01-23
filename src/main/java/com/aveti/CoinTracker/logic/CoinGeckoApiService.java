@@ -1,8 +1,7 @@
 package com.aveti.CoinTracker.logic;
 
-import com.aveti.CoinTracker.model.CoinPrice;
-import com.aveti.CoinTracker.model.Currency;
-import com.aveti.CoinTracker.model.CurrencyList;
+import com.aveti.CoinTracker.model.*;
+import com.aveti.CoinTracker.model.repository.CoinDetailsRepository;
 import com.aveti.CoinTracker.model.repository.CurrencyRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.stereotype.Service;
@@ -11,6 +10,7 @@ import org.springframework.web.client.RestTemplate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,10 +20,12 @@ import static com.aveti.CoinTracker.controller.CoinGeckoApiController.baseApiUrl
 public class CoinGeckoApiService {
 
     private final CurrencyRepository currencyRepository;
+    private final CoinDetailsRepository coinDetailsRepository;
     private final RestTemplate restTemplate = new RestTemplate();
 
-    CoinGeckoApiService(final CurrencyRepository currencyRepository) {
+    CoinGeckoApiService(final CurrencyRepository currencyRepository, final CoinDetailsRepository coinDetailsRepository) {
         this.currencyRepository = currencyRepository;
+        this.coinDetailsRepository = coinDetailsRepository;
     }
 
     public void updateCoinsList(CurrencyList list) {
@@ -85,5 +87,17 @@ public class CoinGeckoApiService {
             result.add(jsonNode.get("market_data").get("current_price").get(target).asDouble());
         }
         return result;
+    }
+
+    public void getCoinsDetailsFromAPI() {
+        //Getting info of about 4000 coins from api ordered by market cap descending
+        for (int i=1; i<=16; i++) {
+            String requestUrl = baseApiUrl + "/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=" + i +"&sparkline=false";
+            CoinDetails[] coinDetails = restTemplate.getForObject(requestUrl, CoinDetails[].class);
+            if (coinDetails!=null) {
+                coinDetailsRepository.saveAll(Arrays.asList(coinDetails));
+            }
+        }
+
     }
 }

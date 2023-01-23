@@ -17,7 +17,7 @@ public class CoinGeckoApiController {
 
     private final TransactionService transactionService;
     private final CoinGeckoApiService apiService;
-    private RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate = new RestTemplate();
     public static final String baseApiUrl = "https://api.coingecko.com/api/v3";
 
     CoinGeckoApiController(final TransactionService transactionService, final CoinGeckoApiService apiService) {
@@ -55,5 +55,10 @@ public class CoinGeckoApiController {
     @GetMapping("/coin_history_price")
     public Double getHistoryCoinPrice() {
         return apiService.getCoinHistoricalPrice("bitcoin","27-09-2021");
+    }
+
+    @GetMapping("/coins_details")
+    public void updateCoinsDetails() {
+        apiService.getCoinsDetailsFromAPI();
     }
 }
