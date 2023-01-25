@@ -19,4 +19,37 @@ Below there is listed current techstack of application:<br>
 
 # Getting started locally
 
-To be written...
+1. Clone this repository
+2. Open project in your IDE then compile and run or <br>
+by using command in terminal `./mvnw spring-boot:run` when in main directory
+3. If everything goes smoothly app should be running locally on `localhost:8080`
+
+# Project structure 
+```
+src
+├───main
+│   ├───java
+│   │   └───com
+│   │       └───aveti
+│   │           └───CoinTracker
+│   │               ├───controller      <- controller classes with endpoints returning data
+│   │               ├───locale          <- locale resolver configuration for multilanguage suppport
+│   │               ├───logic           <- bussines logic services for processing data
+│   │               ├───model           <- model database entities
+│   │               │   ├───projection  <- projection of database entities to convert entity to/from primitive types
+│   │               │   └───repository  <- jpa repositories for db entities
+│   │               ├───util            <- utilities classes, which helping in managing and viewing data
+│   │               └───view            <- viewController.java with endpoints returning view
+│   └───resources
+│       ├───db
+│       │   └───migration               <- sql db migrations, currently don't needed becasue spring data generates it automatically
+│       ├───languages                   <- languages properties files containing translations
+│       ├───static                      <- static files used in templates like css stylesheets and JS files
+│       └───templates                   <- templates returned by endpoints in viewController.java
+└───test
+    └───java
+        └───com
+            └───aveti
+                └───CoinTracker
+                    └───logic
+```
