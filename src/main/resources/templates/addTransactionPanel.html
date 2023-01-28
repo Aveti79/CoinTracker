@@ -30,8 +30,15 @@
             grid-gap: 12px;
         }
 
+        .errorBd {
+            border: 2px solid red !important;
+        }
+
         .C\(red\) {
             color: red;
+            font-size: initial;
+            font-weight: 500;
+            text-align: center;
         }
 
 
@@ -65,17 +72,16 @@
         <legend th:text="#{atp.typeanddate}">Transaction type and date</legend>
         <label class="leftInput"><span th:text="#{atp.transactiontype}" th:remove="tag">Type:</span>
             <select style="width: 100%" th:field="*{type}" name="type">
-                <option th:text="#{atp.transactiontype.t1}" value="Handel">Trade</option>
-                <option th:text="#{atp.transactiontype.t2}" value="Wpłata">Deposit</option>
-                <option th:text="#{atp.transactiontype.t3}" value="Wypłata">Withdraw</option>
-                <option th:text="#{atp.transactiontype.t4}" value="Transfer">Transfer</option>
+                <option th:text="#{atp.transactiontype.t1}" value="TRADE">Trade</option>
+                <option th:text="#{atp.transactiontype.t2}" value="DEPOSIT">Deposit</option>
+                <option th:text="#{atp.transactiontype.t3}" value="WITHDRAW">Withdraw</option>
+                <option th:text="#{atp.transactiontype.t4}" value="TRANSFER">Transfer</option>
             </select>
         </label>
         <label class="rightInput" style="margin-top: 0"><span th:text="#{atp.date}" th:remove="tag">Date:</span>
             <input type="datetime-local" step="1" th:field="*{transactionTime}" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}" required>
         </label>
     </fieldset>
-    <p class="C(red)" th:if="${#fields.hasAnyErrors()}" th:errors="*{all}">
     <div class="inputFieldset">
         <fieldset>
             <legend th:text="#{atp.buy}" style="color: mediumseagreen">Buy</legend>
@@ -84,8 +90,9 @@
             </label>
             <label><span th:text="#{atp.currency}" th:remove="tag">Currency:</span>
                 <input class="currency" type="text">
-                <input class="currency_id" type="text"  th:field="*{buyCurrency}" th:errorclass="'Bdc(red)'">
+                <input class="currency_id" type="text" style="margin-bottom: 0;" th:field="*{buyCurrency}" th:class="${#fields.hasErrors('buyCurrency')}? 'currency_id errorBd'">
             </label>
+            <p class="C(red)" th:if="${#fields.hasErrors('buyCurrency')}" th:errors="*{buyCurrency}">
         </fieldset>
         <fieldset>
             <legend th:text="#{atp.sell}" style="color: indianred">Sell</legend>
@@ -94,8 +101,9 @@
             </label>
             <label><span th:text="#{atp.currency}" th:remove="tag">Currency:</span>
                 <input class="currency" type="text">
-                <input class="currency_id" type="text" th:field="*{sellCurrency}">
+                <input class="currency_id" type="text" style="margin-bottom: 0;" th:field="*{sellCurrency}">
             </label>
+            <p class="C(red)" th:if="${#fields.hasErrors('sellCurrency')}" th:errors="${#fields.errors('sellCurrency').get(0)}">
         </fieldset>
     </div>
     <div class="inputFieldset">
@@ -104,9 +112,9 @@
             <label><span th:text="#{atp.amount}" th:remove="tag">Amount:</span>
                 <input type="number" step="any" min="0" th:field="*{feeAmount}">
             </label>
-            <label><span th:text="#{atp.currency}" th:remove="tag">Currency:</span>
+            <label><span th:text="#{atp.currency}"  th:remove="tag">Currency:</span>
                 <input class="currency" type="text">
-                <input class="currency_id" type="text" th:field="*{feeCurrency}">
+                <input class="currency_id" type="text" style="margin-bottom: 0;" th:field="*{feeCurrency}">
             </label>
         </fieldset>
         <fieldset>
@@ -141,17 +149,12 @@
             }
         });
     });
-</script>
-<script>
-    document.querySelectorAll(".currency").forEach(currency => {
-        currency.addEventListener('focusout', () => {
-            console.log(currency.nextElementSibling.value);
-            console.log(currency.value);
-            if (!currency.nextElementSibling.value) {
-                currency.nextElementSibling.value=currency.value;
-            }
+
+    $(function () {
+        $(".currency").change(function () {
+            $(this).next().val(this.value)
         })
-    })
+    });
 </script>
 <script type="application/javascript" src="/languageChanger.js"></script>
 </html>

@@ -2,6 +2,7 @@ package com.aveti.CoinTracker.model.projection;
 
 import com.aveti.CoinTracker.model.Currency;
 import com.aveti.CoinTracker.model.Transaction;
+import com.aveti.CoinTracker.model.validation.IsValidCurrency;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
@@ -13,11 +14,15 @@ public class TransactionWriteModel {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime transactionTime;
     private double buyAmount;
-    @NotBlank(message = "Pole nie może być puste")
+    @NotBlank(message = "Currency field can't be empty!")
+    @IsValidCurrency()
     private String buyCurrency;
     private double sellAmount;
+    @NotBlank(message = "Currency field can't be empty!")
+    @IsValidCurrency()
     private String sellCurrency;
     private double feeAmount;
+    @IsValidCurrency()
     private String feeCurrency;
     private String comment;
     private double sellValueInUsd;
