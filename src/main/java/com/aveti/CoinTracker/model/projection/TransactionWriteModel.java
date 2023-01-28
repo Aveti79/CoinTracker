@@ -2,27 +2,31 @@ package com.aveti.CoinTracker.model.projection;
 
 import com.aveti.CoinTracker.model.Currency;
 import com.aveti.CoinTracker.model.Transaction;
+import com.aveti.CoinTracker.model.TransactionTypeEnum;
 import com.aveti.CoinTracker.model.validation.IsValidCurrency;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 public class TransactionWriteModel {
 
-    private String type;
+    @Enumerated(EnumType.STRING)
+    private TransactionTypeEnum type;
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime transactionTime;
     private double buyAmount;
     @NotBlank(message = "Currency field can't be empty!")
-    @IsValidCurrency()
+    @IsValidCurrency
     private String buyCurrency;
     private double sellAmount;
     @NotBlank(message = "Currency field can't be empty!")
-    @IsValidCurrency()
+    @IsValidCurrency
     private String sellCurrency;
     private double feeAmount;
-    @IsValidCurrency()
+    @IsValidCurrency
     private String feeCurrency;
     private String comment;
     private double sellValueInUsd;
@@ -31,11 +35,11 @@ public class TransactionWriteModel {
     public TransactionWriteModel() {
     }
 
-    public String getType() {
+    public TransactionTypeEnum getType() {
         return type;
     }
 
-    public void setType(final String type) {
+    public void setType(final TransactionTypeEnum type) {
         this.type = type;
     }
 

@@ -45,7 +45,7 @@
     <tbody>
     <!--/*@thymesVar id="transaction" type="com.aveti.CoinTracker.model.Transaction"*/-->
     <tr th:each="transaction : ${transactions}">
-        <td th:text="${transaction.getType()}"></td>
+        <td th:text="#{'atp.transactiontype.t' + ${transaction.getType().ordinal()+1}}"></td>
         <td th:text="${transaction.getTransactionTime()}"></td>
         <td th:text="${@decimalFormatter.formatDecimalStripTrailingZeros(transaction.getBuyAmount(), 1, 8)}"></td>
         <td th:text="${transaction.getBuyCurrency()}"></td>

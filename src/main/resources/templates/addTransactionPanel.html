@@ -72,10 +72,10 @@
         <legend th:text="#{atp.typeanddate}">Transaction type and date</legend>
         <label class="leftInput"><span th:text="#{atp.transactiontype}" th:remove="tag">Type:</span>
             <select style="width: 100%" th:field="*{type}" name="type">
-                <option th:text="#{atp.transactiontype.t1}" value="TRADE">Trade</option>
-                <option th:text="#{atp.transactiontype.t2}" value="DEPOSIT">Deposit</option>
-                <option th:text="#{atp.transactiontype.t3}" value="WITHDRAW">Withdraw</option>
-                <option th:text="#{atp.transactiontype.t4}" value="TRANSFER">Transfer</option>
+                <option th:each="tradeType : ${T(com.aveti.CoinTracker.model.TransactionTypeEnum).values()}"
+                        th:value="${tradeType}"
+                        th:text="#{'atp.transactiontype.t' + ${tradeType.ordinal()+1}}">
+                </option>
             </select>
         </label>
         <label class="rightInput" style="margin-top: 0"><span th:text="#{atp.date}" th:remove="tag">Date:</span>
@@ -90,7 +90,8 @@
             </label>
             <label><span th:text="#{atp.currency}" th:remove="tag">Currency:</span>
                 <input class="currency" type="text">
-                <input class="currency_id" type="text" style="margin-bottom: 0;" th:field="*{buyCurrency}" th:class="${#fields.hasErrors('buyCurrency')}? 'currency_id errorBd'">
+                <input class="currency_id" type="text" style="margin-bottom: 0;" th:field="*{buyCurrency}"
+                       th:class="${#fields.hasErrors('buyCurrency')}? 'currency_id errorBd'">
             </label>
             <p class="C(red)" th:if="${#fields.hasErrors('buyCurrency')}" th:errors="*{buyCurrency}">
         </fieldset>
@@ -103,7 +104,7 @@
                 <input class="currency" type="text">
                 <input class="currency_id" type="text" style="margin-bottom: 0;" th:field="*{sellCurrency}">
             </label>
-            <p class="C(red)" th:if="${#fields.hasErrors('sellCurrency')}" th:errors="${#fields.errors('sellCurrency').get(0)}">
+            <p class="C(red)" th:if="${#fields.hasErrors('sellCurrency')}" th:errors="*{sellCurrency}">
         </fieldset>
     </div>
     <div class="inputFieldset">
@@ -150,11 +151,6 @@
         });
     });
 
-    $(function () {
-        $(".currency").change(function () {
-            $(this).next().val(this.value)
-        })
-    });
 </script>
 <script type="application/javascript" src="/languageChanger.js"></script>
 </html>

@@ -12,7 +12,8 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String type; //todo: maybe add enum class for type
+    @Enumerated(EnumType.STRING)
+    private TransactionTypeEnum type;
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime transactionTime;
     private double buyAmount;
@@ -34,7 +35,7 @@ public class Transaction {
     public Transaction() {
     }
 
-    public Transaction(final String type,
+    public Transaction(final TransactionTypeEnum type,
                        final LocalDateTime transactionTime,
                        final double buyAmount,
                        final Currency buyCurrency,
@@ -48,7 +49,7 @@ public class Transaction {
         this.sellCurrency = sellCurrency;
     }
 
-    public Transaction(final String type,
+    public Transaction(final TransactionTypeEnum type,
                 final LocalDateTime transactionTime,
                 final double buyAmount,
                 final Currency buyCurrency,
@@ -76,11 +77,11 @@ public class Transaction {
         this.id = id;
     }
 
-    public String getType() {
+    public TransactionTypeEnum getType() {
         return type;
     }
 
-    public void setType(final String type) {
+    public void setType(final TransactionTypeEnum type) {
         this.type = type;
     }
 
