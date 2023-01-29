@@ -1,7 +1,3 @@
-function setLangCookie() {
-    document.cookie = 'lang=' + document.querySelector('html').getAttribute('lang');
-}
-
 function getCookie(cname) {
     let name = cname + "=";
     let ca = document.cookie.split(';');
@@ -17,15 +13,6 @@ function getCookie(cname) {
     return "";
 }
 
-function checkLangCookie() {
-    let lang = getCookie("lang");
-    let params = new URLSearchParams(location.search);
-    if (lang === '') {
-        setLangCookie();
-    } else if (lang !== 'en' && !params.has('lang')) {
-        window.location.search = 'lang=' + lang;
-    }
-}
 
 function checkLangSelected() {
     let languageOptions = document.querySelectorAll('.lang_select > label > select > option');
@@ -41,11 +28,9 @@ function checkLangSelected() {
 }
 
 function langChange(langSym) {
-    document.cookie = 'lang=' + langSym;
     window.location.search = 'lang=' + langSym;
 }
 
 window.onload = () => {
-    checkLangCookie();
     checkLangSelected();
 }
