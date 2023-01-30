@@ -46,7 +46,7 @@ public class ViewController {
             return "addTransactionPanel";
         }
         transactionService.createTransaction(toPost);
-        return "addTransactionPanel";
+        return "redirect:/addTransaction";
     }
 
     @GetMapping("/gains")
