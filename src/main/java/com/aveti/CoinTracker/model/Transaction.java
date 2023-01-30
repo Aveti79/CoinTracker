@@ -3,6 +3,7 @@ package com.aveti.CoinTracker.model;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Entity
@@ -28,6 +29,7 @@ public class Transaction {
     @ManyToOne
     @JoinColumn(name = "feeCurrency")
     private Currency feeCurrency;
+    @Size(max = 512)
     private String comment;
     private double buyValueInUsd;
     private double sellValueInUsd;

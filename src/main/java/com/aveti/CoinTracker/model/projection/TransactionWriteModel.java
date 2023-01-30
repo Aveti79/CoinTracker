@@ -8,7 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 public class TransactionWriteModel {
@@ -18,16 +18,18 @@ public class TransactionWriteModel {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime transactionTime;
     private double buyAmount;
-    @NotBlank(message = "Currency field can't be empty!")
+    private String buyCurrencyLabel;
     @IsValidCurrency
     private String buyCurrency;
     private double sellAmount;
-    @NotBlank(message = "Currency field can't be empty!")
+    private String sellCurrencyLabel;
     @IsValidCurrency
     private String sellCurrency;
     private double feeAmount;
-    @IsValidCurrency
+    private String feeCurrencyLabel;
+    @IsValidCurrency(nullable = true)
     private String feeCurrency;
+    @Size(max = 512)
     private String comment;
     private double sellValueInUsd;
     private double buyValueInUsd;
@@ -121,6 +123,30 @@ public class TransactionWriteModel {
 
     public void setBuyValueInUsd(final double buyValueInUsd) {
         this.buyValueInUsd = buyValueInUsd;
+    }
+
+    public String getBuyCurrencyLabel() {
+        return buyCurrencyLabel;
+    }
+
+    public void setBuyCurrencyLabel(final String buyCurrencyLabel) {
+        this.buyCurrencyLabel = buyCurrencyLabel;
+    }
+
+    public String getSellCurrencyLabel() {
+        return sellCurrencyLabel;
+    }
+
+    public void setSellCurrencyLabel(final String sellCurrencyLabel) {
+        this.sellCurrencyLabel = sellCurrencyLabel;
+    }
+
+    public String getFeeCurrencyLabel() {
+        return feeCurrencyLabel;
+    }
+
+    public void setFeeCurrencyLabel(final String feeCurrencyLabel) {
+        this.feeCurrencyLabel = feeCurrencyLabel;
     }
 
     public Transaction toTransaction(Currency buyCurrency, Currency sellCurrency, Currency feeCurrency) {

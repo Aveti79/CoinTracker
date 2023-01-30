@@ -89,7 +89,7 @@
                 <input type="number" step="any" min="0" th:field="*{buyAmount}">
             </label>
             <label><span th:text="#{atp.currency}" th:remove="tag">Currency:</span>
-                <input class="currency" type="text" th:class="${#fields.hasErrors('buyCurrency')} ? 'currency errorBd' : 'currency'">
+                <input class="currency" type="text" th:field="*{buyCurrencyLabel}" th:class="${#fields.hasErrors('buyCurrency')} ? 'currency errorBd' : 'currency'">
                 <input class="currency_id" type="hidden" style="margin-bottom: 0;" th:field="*{buyCurrency}">
             </label>
             <p class="C(red)" th:if="${#fields.hasErrors('buyCurrency')}" th:errors="*{buyCurrency}">
@@ -100,7 +100,7 @@
                 <input type="number" step="any" min="0" th:field="*{sellAmount}">
             </label>
             <label><span th:text="#{atp.currency}" th:remove="tag">Currency:</span>
-                <input class="currency" type="text" th:class="${#fields.hasErrors('sellCurrency')} ? 'currency errorBd' : 'currency'">
+                <input class="currency" type="text" th:field="*{sellCurrencyLabel}" th:class="${#fields.hasErrors('sellCurrency')} ? 'currency errorBd' : 'currency'">
                 <input class="currency_id" type="hidden" style="margin-bottom: 0;" th:field="*{sellCurrency}">
             </label>
             <p class="C(red)" th:if="${#fields.hasErrors('sellCurrency')}" th:errors="*{sellCurrency}">
@@ -113,9 +113,10 @@
                 <input type="number" step="any" min="0" th:field="*{feeAmount}">
             </label>
             <label><span th:text="#{atp.currency}"  th:remove="tag">Currency:</span>
-                <input class="currency" type="text">
+                <input class="currency" type="text" th:field="*{feeCurrencyLabel}" th:class="${#fields.hasErrors('feeCurrency')} ? 'currency errorBd' : 'currency'">
                 <input class="currency_id" type="hidden" style="margin-bottom: 0;" th:field="*{feeCurrency}">
             </label>
+            <p class="C(red)" th:if="${#fields.hasErrors('feeCurrency')}" th:errors="*{feeCurrency}">
         </fieldset>
         <fieldset>
             <legend><span th:text="#{atp.additionalinfo}" th:remove="tag">Additional info</span> <small th:text="#{atp.additioanlinfo.optional}"> - optional</small></legend>
@@ -142,6 +143,7 @@
 
     $(".currency").focusin(function () {
         this.value = '';
+        $(this).next().val(this.value);
     })
 
     $(function () {
