@@ -19,15 +19,15 @@ public class TransactionWriteModel {
     private LocalDateTime transactionTime;
     private double buyAmount;
     private String buyCurrencyLabel;
-    @IsValidCurrency
+    @IsValidCurrency(messageNotFound = "{atp.not.found.message}", messageIfBlank = "{atp.not.blank.message}")
     private String buyCurrency;
     private double sellAmount;
     private String sellCurrencyLabel;
-    @IsValidCurrency
+    @IsValidCurrency(messageNotFound = "{atp.not.found.message}", messageIfBlank = "{atp.not.blank.message}")
     private String sellCurrency;
     private double feeAmount;
     private String feeCurrencyLabel;
-    @IsValidCurrency(nullable = true)
+    @IsValidCurrency(nullable = true, messageNotFound = "{atp.not.found.message}", messageIfBlank = "{atp.not.blank.message}")
     private String feeCurrency;
     @Size(max = 512)
     private String comment;
