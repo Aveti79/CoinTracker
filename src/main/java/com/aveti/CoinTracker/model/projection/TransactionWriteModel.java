@@ -2,23 +2,34 @@ package com.aveti.CoinTracker.model.projection;
 
 import com.aveti.CoinTracker.model.Currency;
 import com.aveti.CoinTracker.model.Transaction;
+import com.aveti.CoinTracker.model.TransactionTypeEnum;
+import com.aveti.CoinTracker.model.validation.IsValidCurrency;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.validation.constraints.NotBlank;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 public class TransactionWriteModel {
 
-    private String type;
+    @Enumerated(EnumType.STRING)
+    private TransactionTypeEnum type;
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime transactionTime;
     private double buyAmount;
-    @NotBlank(message = "Pole nie może być puste")
+    private String buyCurrencyLabel;
+    @IsValidCurrency(messageNotFound = "{atp.not.found.message}", messageIfBlank = "{atp.not.blank.message}")
     private String buyCurrency;
     private double sellAmount;
+    private String sellCurrencyLabel;
+    @IsValidCurrency(messageNotFound = "{atp.not.found.message}", messageIfBlank = "{atp.not.blank.message}")
     private String sellCurrency;
     private double feeAmount;
+    private String feeCurrencyLabel;
+    @IsValidCurrency(nullable = true, messageNotFound = "{atp.not.found.message}", messageIfBlank = "{atp.not.blank.message}")
     private String feeCurrency;
+    @Size(max = 512)
     private String comment;
     private double sellValueInUsd;
     private double buyValueInUsd;
@@ -26,11 +37,11 @@ public class TransactionWriteModel {
     public TransactionWriteModel() {
     }
 
-    public String getType() {
+    public TransactionTypeEnum getType() {
         return type;
     }
 
-    public void setType(final String type) {
+    public void setType(final TransactionTypeEnum type) {
         this.type = type;
     }
 
@@ -112,6 +123,30 @@ public class TransactionWriteModel {
 
     public void setBuyValueInUsd(final double buyValueInUsd) {
         this.buyValueInUsd = buyValueInUsd;
+    }
+
+    public String getBuyCurrencyLabel() {
+        return buyCurrencyLabel;
+    }
+
+    public void setBuyCurrencyLabel(final String buyCurrencyLabel) {
+        this.buyCurrencyLabel = buyCurrencyLabel;
+    }
+
+    public String getSellCurrencyLabel() {
+        return sellCurrencyLabel;
+    }
+
+    public void setSellCurrencyLabel(final String sellCurrencyLabel) {
+        this.sellCurrencyLabel = sellCurrencyLabel;
+    }
+
+    public String getFeeCurrencyLabel() {
+        return feeCurrencyLabel;
+    }
+
+    public void setFeeCurrencyLabel(final String feeCurrencyLabel) {
+        this.feeCurrencyLabel = feeCurrencyLabel;
     }
 
     public Transaction toTransaction(Currency buyCurrency, Currency sellCurrency, Currency feeCurrency) {

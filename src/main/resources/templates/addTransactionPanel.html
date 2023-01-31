@@ -30,8 +30,15 @@
             grid-gap: 12px;
         }
 
+        .errorBd {
+            border: 2px solid red !important;
+        }
+
         .C\(red\) {
             color: red;
+            font-size: initial;
+            font-weight: 500;
+            text-align: center;
         }
 
 
@@ -65,17 +72,16 @@
         <legend th:text="#{atp.typeanddate}">Transaction type and date</legend>
         <label class="leftInput"><span th:text="#{atp.transactiontype}" th:remove="tag">Type:</span>
             <select style="width: 100%" th:field="*{type}" name="type">
-                <option th:text="#{atp.transactiontype.t1}" value="Handel">Trade</option>
-                <option th:text="#{atp.transactiontype.t2}" value="Wpłata">Deposit</option>
-                <option th:text="#{atp.transactiontype.t3}" value="Wypłata">Withdraw</option>
-                <option th:text="#{atp.transactiontype.t4}" value="Transfer">Transfer</option>
+                <option th:each="tradeType : ${T(com.aveti.CoinTracker.model.TransactionTypeEnum).values()}"
+                        th:value="${tradeType}"
+                        th:text="#{'atp.transactiontype.t' + ${tradeType.ordinal()+1}}">
+                </option>
             </select>
         </label>
         <label class="rightInput" style="margin-top: 0"><span th:text="#{atp.date}" th:remove="tag">Date:</span>
             <input type="datetime-local" step="1" th:field="*{transactionTime}" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}" required>
         </label>
     </fieldset>
-    <p class="C(red)" th:if="${#fields.hasAnyErrors()}" th:errors="*{all}">
     <div class="inputFieldset">
         <fieldset>
             <legend th:text="#{atp.buy}" style="color: mediumseagreen">Buy</legend>
@@ -83,9 +89,10 @@
                 <input type="number" step="any" min="0" th:field="*{buyAmount}">
             </label>
             <label><span th:text="#{atp.currency}" th:remove="tag">Currency:</span>
-                <input class="currency" type="text">
-                <input class="currency_id" type="text"  th:field="*{buyCurrency}" th:errorclass="'Bdc(red)'">
+                <input class="currency" type="text" th:field="*{buyCurrencyLabel}" th:class="${#fields.hasErrors('buyCurrency')} ? 'currency errorBd' : 'currency'">
+                <input class="currency_id" type="hidden" style="margin-bottom: 0;" th:field="*{buyCurrency}">
             </label>
+            <p class="C(red)" th:if="${#fields.hasErrors('buyCurrency')}" th:errors="*{buyCurrency}">
         </fieldset>
         <fieldset>
             <legend th:text="#{atp.sell}" style="color: indianred">Sell</legend>
@@ -93,9 +100,10 @@
                 <input type="number" step="any" min="0" th:field="*{sellAmount}">
             </label>
             <label><span th:text="#{atp.currency}" th:remove="tag">Currency:</span>
-                <input class="currency" type="text">
-                <input class="currency_id" type="text" th:field="*{sellCurrency}">
+                <input class="currency" type="text" th:field="*{sellCurrencyLabel}" th:class="${#fields.hasErrors('sellCurrency')} ? 'currency errorBd' : 'currency'">
+                <input class="currency_id" type="hidden" style="margin-bottom: 0;" th:field="*{sellCurrency}">
             </label>
+            <p class="C(red)" th:if="${#fields.hasErrors('sellCurrency')}" th:errors="*{sellCurrency}">
         </fieldset>
     </div>
     <div class="inputFieldset">
@@ -104,10 +112,11 @@
             <label><span th:text="#{atp.amount}" th:remove="tag">Amount:</span>
                 <input type="number" step="any" min="0" th:field="*{feeAmount}">
             </label>
-            <label><span th:text="#{atp.currency}" th:remove="tag">Currency:</span>
-                <input class="currency" type="text">
-                <input class="currency_id" type="text" th:field="*{feeCurrency}">
+            <label><span th:text="#{atp.currency}"  th:remove="tag">Currency:</span>
+                <input class="currency" type="text" th:field="*{feeCurrencyLabel}" th:class="${#fields.hasErrors('feeCurrency')} ? 'currency errorBd' : 'currency'">
+                <input class="currency_id" type="hidden" style="margin-bottom: 0;" th:field="*{feeCurrency}">
             </label>
+            <p class="C(red)" th:if="${#fields.hasErrors('feeCurrency')}" th:errors="*{feeCurrency}">
         </fieldset>
         <fieldset>
             <legend><span th:text="#{atp.additionalinfo}" th:remove="tag">Additional info</span> <small th:text="#{atp.additioanlinfo.optional}"> - optional</small></legend>
@@ -130,6 +139,13 @@
 </footer>
 </body>
 <script>
+    let eventFire = false;
+
+    $(".currency").focusin(function () {
+        this.value = '';
+        $(this).next().val(this.value);
+    })
+
     $(function () {
         $(".currency").autocomplete({
             source: "coinNameAutocomplete",
@@ -137,21 +153,18 @@
             select: function (event, ui) {
                 this.value = ui.item.label;
                 $(this).next().val(ui.item.value)
+                eventFire=true;
                 return false;
+            },
+            change: function () {
+                if (!eventFire) {
+                    $(this).next().val(this.value);
+                }
+                eventFire=false;
             }
         });
     });
-</script>
-<script>
-    document.querySelectorAll(".currency").forEach(currency => {
-        currency.addEventListener('focusout', () => {
-            console.log(currency.nextElementSibling.value);
-            console.log(currency.value);
-            if (!currency.nextElementSibling.value) {
-                currency.nextElementSibling.value=currency.value;
-            }
-        })
-    })
+
 </script>
 <script type="application/javascript" src="/languageChanger.js"></script>
 </html>

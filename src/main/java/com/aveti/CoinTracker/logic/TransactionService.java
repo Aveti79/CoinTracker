@@ -48,7 +48,7 @@ public class TransactionService {
     private Currency getCurrencyFromString(String currencyId) {
         if (!currencyId.isBlank()) {
             return currencyRepository.findById(currencyId)
-                    .orElseThrow(() -> new IllegalArgumentException("Brak waluty w bazie danych"));
+                    .orElseThrow(() -> new IllegalArgumentException("Currency not found in database"));
         }
         return null;
     }
