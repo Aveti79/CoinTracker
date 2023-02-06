@@ -28,7 +28,7 @@ public class ViewController {
 
     @GetMapping("/transactions")
     String viewTransactionsList(Model model) {
-        model.addAttribute("transactions", transactionService.readAllTransactions());
+        model.addAttribute("transactions", transactionService.readAllTransactionsWithIcons());
         return "transactionList";
     }
 

@@ -20,6 +20,19 @@
         thead > tr > th {
             vertical-align: middle;
         }
+
+        td > img {
+            min-width: 20px;
+            width: 20px;
+            display: inline;
+            vertical-align: middle;
+        }
+
+        td > img + span {
+            vertical-align: middle;
+            margin-left: 5px;
+            font-weight: 500;
+        }
     </style>
 </head>
 <body>
@@ -43,16 +56,25 @@
     </tr>
     </thead>
     <tbody>
-    <!--/*@thymesVar id="transaction" type="com.aveti.CoinTracker.model.Transaction"*/-->
+    <!--/*@thymesVar id="transaction" type="com.aveti.CoinTracker.model.projection.TransactionReadModel"*/-->
     <tr th:each="transaction : ${transactions}">
         <td th:text="#{'atp.transactiontype.t' + ${transaction.getType().ordinal()+1}}"></td>
         <td th:text="${transaction.getTransactionTime()}"></td>
         <td th:text="${@decimalFormatter.formatDecimalStripTrailingZeros(transaction.getBuyAmount(), 1, 8)}"></td>
-        <td th:text="${transaction.getBuyCurrency()}"></td>
+        <td>
+            <img th:src="${transaction.getBuyCurrencyLogo()}">
+            <span th:text="${transaction.getBuyCurrency()}"></span>
+        </td>
         <td th:text="${@decimalFormatter.formatDecimalStripTrailingZeros(transaction.getSellAmount(), 1, 8)}"></td>
-        <td th:text="${transaction.getSellCurrency()}"></td>
+        <td>
+            <img th:src="${transaction.getSellCurrencyLogo()}">
+            <span th:text="${transaction.getSellCurrency()}"></span>
+        </td>
         <td th:text="${@decimalFormatter.formatDecimalStripTrailingZeros(transaction.getFeeAmount(), 1, 8)}"></td>
-        <td th:text="${transaction.getFeeCurrency()}"></td>
+        <td>
+            <img th:src="${transaction.getFeeCurrencyLogo()}">
+            <span th:text="${transaction.getFeeCurrency()}"></span>
+        </td>
         <td th:text="${transaction.getComment()}"></td>
     </tr>
     </tbody>

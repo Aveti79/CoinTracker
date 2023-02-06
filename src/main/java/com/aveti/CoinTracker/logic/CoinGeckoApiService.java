@@ -100,4 +100,14 @@ public class CoinGeckoApiService {
         }
 
     }
+
+    public CoinDetails getSingleCoinDetailsFromAPI(String currencyId) {
+            String requestUrl = baseApiUrl + "/coins/markets?vs_currency=usd&ids=" + currencyId + "&order=market_cap_desc&sparkline=false";
+            CoinDetails[] coinDetails = restTemplate.getForObject(requestUrl, CoinDetails[].class);
+            if (coinDetails!=null && coinDetails.length>0) {
+                coinDetailsRepository.saveAll(Arrays.asList(coinDetails));
+                return coinDetails[0];
+            }
+            return null;
+    }
 }
