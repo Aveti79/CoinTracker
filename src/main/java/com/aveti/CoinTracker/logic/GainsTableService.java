@@ -18,11 +18,16 @@ public class GainsTableService {
     private final TransactionRepository transactionRepository;
     private final CurrencyRepository currencyRepository;
     private final CoinGeckoApiService apiService;
+    private final CoinDetailsService detailsService;
 
-    GainsTableService(final TransactionRepository transactionRepository, final CurrencyRepository currencyRepository, final CoinGeckoApiService apiService) {
+    GainsTableService(final TransactionRepository transactionRepository,
+                      final CurrencyRepository currencyRepository,
+                      final CoinGeckoApiService apiService,
+                      final CoinDetailsService detailsService) {
         this.transactionRepository = transactionRepository;
         this.currencyRepository = currencyRepository;
         this.apiService = apiService;
+        this.detailsService = detailsService;
     }
 
     public List<GainTableRow> getTableRows() {
@@ -47,6 +52,7 @@ public class GainsTableService {
         GainTableRow result = new GainTableRow();
         result.setCurrency(currencyRepository.findById(currency)
                 .orElseThrow(() -> new NoSuchElementException("Brak waluty w bazie danych")));
+        result.setLogo(detailsService.getCurrencyLogo(result.getCurrency()));
         result.setAmount(getTotalCurrencyAmount(currency));
         result.setSummaryPrice(getTotalCost(buyTransactions, sellTransactions));
         result.setAverageBuyPrice(calculateAverageUnitCost(result.getSummaryPrice(), result.getAmount()));

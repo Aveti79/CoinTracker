@@ -17,7 +17,6 @@ function getCookie(cname) {
 function checkLangSelected() {
     let languageOptions = document.querySelectorAll('.lang_select > label > select > option');
     let selectedLang = getCookie('lang');
-    console.log(selectedLang);
     if (selectedLang !== '') {
         languageOptions.forEach((option) => {
             if (option.getAttribute('value') === selectedLang) {

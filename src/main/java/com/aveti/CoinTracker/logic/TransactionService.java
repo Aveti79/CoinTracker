@@ -2,12 +2,14 @@ package com.aveti.CoinTracker.logic;
 
 import com.aveti.CoinTracker.model.Currency;
 import com.aveti.CoinTracker.model.Transaction;
+import com.aveti.CoinTracker.model.projection.TransactionReadModel;
 import com.aveti.CoinTracker.model.projection.TransactionWriteModel;
 import com.aveti.CoinTracker.model.repository.CurrencyRepository;
 import com.aveti.CoinTracker.model.repository.TransactionRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -18,14 +20,18 @@ public class TransactionService {
     private final TransactionRepository transactionRepository;
     private final CurrencyRepository currencyRepository;
     private final CoinGeckoApiService apiService;
+    private final CoinDetailsService detailsService;
 
-    public TransactionService(final TransactionRepository transactionRepository, final CurrencyRepository currencyRepository, final CoinGeckoApiService apiService) {
+    public TransactionService(final TransactionRepository transactionRepository,
+                              final CurrencyRepository currencyRepository,
+                              final CoinGeckoApiService apiService,
+                              final CoinDetailsService detailsService) {
         this.transactionRepository = transactionRepository;
         this.currencyRepository = currencyRepository;
         this.apiService = apiService;
+        this.detailsService = detailsService;
     }
 
-    //TODO: dodać zabezpieczenie przed podaniem złego ID coina
     public Transaction createTransaction(TransactionWriteModel transactionToAdd) {
         Currency buyCurrency = getCurrencyFromString(transactionToAdd.getBuyCurrency());
         Currency sellCurrency = getCurrencyFromString(transactionToAdd.getSellCurrency());
@@ -101,6 +107,19 @@ public class TransactionService {
 
     public List<Transaction> readAllTransactions() {
         return transactionRepository.findAll();
+    }
+
+    public List<TransactionReadModel> readAllTransactionsWithIcons() {
+        return transactionRepository.findAll().stream().map(transaction -> {
+            var logos = new HashMap<String, String>();
+            if (transaction.getBuyCurrency() != null)
+                logos.put("buyCurrencyLogo", detailsService.getCurrencyLogo(transaction.getBuyCurrency()));
+            if (transaction.getSellCurrency() != null)
+                logos.put("sellCurrencyLogo", detailsService.getCurrencyLogo(transaction.getSellCurrency()));
+            if (transaction.getFeeCurrency() != null)
+                logos.put("feeCurrencyLogo", detailsService.getCurrencyLogo(transaction.getFeeCurrency()));
+            return new TransactionReadModel(transaction, logos);
+        }).collect(Collectors.toList());
     }
 
     public Optional<Transaction> findTransactionById(int id) {

@@ -19,15 +19,15 @@ public class Transaction {
     private LocalDateTime transactionTime;
     private double buyAmount;
     @ManyToOne
-    @JoinColumn(name = "buyCurrency")
+    @JoinColumn(name = "BUY_CURRENCY")
     private Currency buyCurrency;
     private double sellAmount;
     @ManyToOne
-    @JoinColumn(name = "sellCurrency")
+    @JoinColumn(name = "SELL_CURRENCY")
     private Currency sellCurrency;
     private double feeAmount;
     @ManyToOne
-    @JoinColumn(name = "feeCurrency")
+    @JoinColumn(name = "FEE_CURRENCY")
     private Currency feeCurrency;
     @Size(max = 512)
     private String comment;
