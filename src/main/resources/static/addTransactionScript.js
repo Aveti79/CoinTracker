@@ -10,15 +10,15 @@ $currency.focusin(function () {
 $currency.autocomplete({
     source: function (request, response) {
         $.ajax({
-            url: "coinNameAutocomplete",
+            url: "currency-autocomplete",
             data: {term: request.term},
             success: function (data) {
                 response($.map(data, function (item) {
                     if (item[4] === null) {
                         if (item[3] === 'FIAT' && currentFiats.includes(item[0])) {
-                            item[4] = "icons/" + item[0] + "_icon.webp";
+                            item[4] = "icons/" + item[0] + "_icon";
                         } else {
-                            item[4] = "icons/blank_icon.webp";
+                            item[4] = "icons/blank_icon";
                         }
                     }
                     return {

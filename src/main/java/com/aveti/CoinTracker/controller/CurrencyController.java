@@ -14,7 +14,7 @@ public class CurrencyController {
         this.currencyService = currencyService;
     }
 
-    @GetMapping("/coinNameAutocomplete")
+    @GetMapping("/currency-autocomplete")
     public String[][] coinNameAutocomplete(@RequestParam(value = "term", required = false, defaultValue = "") String term) {
         return currencyService.currencyAutocomplete(term);
     }

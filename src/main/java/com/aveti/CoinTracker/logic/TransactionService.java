@@ -60,10 +60,9 @@ public class TransactionService {
     }
 
     public void updateSellValuesInUsd() {
-        List<Transaction> transactions = transactionRepository.findAll();
-                /*.stream()
+        List<Transaction> transactions = transactionRepository.findAll().stream()
                 .filter(transaction -> transaction.getSellValueInUsd() == 0.0)
-                .toList();*/
+                .toList();
 
         for (Transaction trade : transactions) {
             if (!trade.getSellCurrency().getType().equals("FIAT")) {
@@ -132,14 +131,6 @@ public class TransactionService {
 
     public List<Transaction> findTransactionsBySellCurrency(String currency) {
         return transactionRepository.findTransactionBySellCurrencyIdOrderByTransactionTime(currency);
-    }
-
-    public List<Currency> findAllCoinsUsedInTransactions() {
-        return transactionRepository.findAll().stream().map(Transaction::getBuyCurrency).collect(Collectors.toList());
-    }
-
-    public List<Currency> getUsedCurrencies() {
-        return transactionRepository.findDistinctBuyCurrencies();
     }
 
 }

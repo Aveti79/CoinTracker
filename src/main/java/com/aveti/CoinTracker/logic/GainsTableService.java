@@ -51,7 +51,7 @@ public class GainsTableService {
 
         GainTableRow result = new GainTableRow();
         result.setCurrency(currencyRepository.findById(currency)
-                .orElseThrow(() -> new NoSuchElementException("Brak waluty w bazie danych")));
+                .orElseThrow(() -> new NoSuchElementException("Currency not found in database")));
         result.setLogo(detailsService.getCurrencyLogo(result.getCurrency()));
         result.setAmount(getTotalCurrencyAmount(currency));
         result.setSummaryPrice(getTotalCost(buyTransactions, sellTransactions));

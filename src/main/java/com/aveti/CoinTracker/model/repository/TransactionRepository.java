@@ -16,9 +16,6 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
 
     List<Transaction> findTransactionByBuyCurrencyIdOrderByTransactionTime(@Param("buyCurrency") String currency);
 
-    @Query("select t from Transaction t where t.buyCurrency.id=:currency or t.sellCurrency.id=:currency")
-    List<Transaction> findTransactionsWithThisCurrencyId(@Param("currency") String currency);
-
     @Query("select sum(sellAmount) from Transaction where sellCurrency.id=:sellCurrency")
     Double getSumOfSellAmount(@Param("sellCurrency") String currency);
 

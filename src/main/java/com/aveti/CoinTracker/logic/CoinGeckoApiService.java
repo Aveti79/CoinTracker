@@ -33,18 +33,18 @@ public class CoinGeckoApiService {
         currencyRepository.saveAll(Currency.getAllSupportedFiat());
     }
 
-    public List<Currency> getCoinList() {
+    public List<Currency> getCoinsListFromDatabase() {
         return currencyRepository.findAll();
     }
 
     public CoinPrice getCoinPriceInfo(String coin) {
         if (!currencyRepository.existsById(coin)) {
-            throw new IllegalArgumentException("Brak wskazanej kryptowaluty w bazie danych");
+            throw new IllegalArgumentException("Currency not found in database");
         }
         String requestUrl = baseApiUrl + "/simple/price?ids=" + coin + "&vs_currencies=usd&include_24hr_change=true";
 
         return Optional.ofNullable(restTemplate.getForObject(requestUrl, CoinPrice.class))
-                .orElseThrow(() -> new NullPointerException("Wystąpił problem z pobraniem aktualnej ceny."));
+                .orElseThrow(() -> new NullPointerException("No Price found for specified currency"));
     }
 
 
@@ -57,7 +57,7 @@ public class CoinGeckoApiService {
      * @return returns how much of given currency you have to pay for 1 US Dollar on a given date.
      */
     public double convertFiatToFiat(String currency, LocalDateTime transactionTime) {
-        List<Double> prices = getHistoricalPriceInManyCurrencies("bitcoin",
+        List<Double> prices = getCoinHistoricalPriceInManyCurrencies("bitcoin",
                 transactionTime.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")),
                 "usd", currency);
 
@@ -78,7 +78,7 @@ public class CoinGeckoApiService {
         return jsonNode.get("market_data").get("current_price").get(currencyId).asDouble();
     }
 
-    public List<Double> getHistoricalPriceInManyCurrencies(String coinId, String transactionTime, String...targetCurrency) {
+    public List<Double> getCoinHistoricalPriceInManyCurrencies(String coinId, String transactionTime, String...targetCurrency) {
         String requestUrl = baseApiUrl + "/coins/" + coinId + "/history?date=" + transactionTime + "&localization=false";
         JsonNode jsonNode = restTemplate.getForObject(requestUrl, JsonNode.class);
         List<Double> result = new ArrayList<>();
