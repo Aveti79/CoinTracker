@@ -5,6 +5,7 @@ import com.aveti.CoinTracker.model.Currency;
 import com.aveti.CoinTracker.model.repository.CoinDetailsRepository;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
 @Service
@@ -18,7 +19,7 @@ public class CoinDetailsService {
         this.apiService = apiService;
     }
 
-    public String getCurrencyLogo(Currency currency) {
+    public String getCurrencyLogo(@NotNull Currency currency) {
         if (currency.getType().equals("COIN")) {
             var coinDetail = detailsRepository.findById(currency.getId());
             if (coinDetail.isPresent()) {

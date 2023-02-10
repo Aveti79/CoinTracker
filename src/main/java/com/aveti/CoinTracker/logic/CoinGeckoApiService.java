@@ -1,6 +1,9 @@
 package com.aveti.CoinTracker.logic;
 
-import com.aveti.CoinTracker.model.*;
+import com.aveti.CoinTracker.model.CoinDetails;
+import com.aveti.CoinTracker.model.CoinPrice;
+import com.aveti.CoinTracker.model.Currency;
+import com.aveti.CoinTracker.model.CurrencyList;
 import com.aveti.CoinTracker.model.repository.CoinDetailsRepository;
 import com.aveti.CoinTracker.model.repository.CurrencyRepository;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -21,11 +24,12 @@ public class CoinGeckoApiService {
 
     private final CurrencyRepository currencyRepository;
     private final CoinDetailsRepository coinDetailsRepository;
-    private final RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate;
 
-    CoinGeckoApiService(final CurrencyRepository currencyRepository, final CoinDetailsRepository coinDetailsRepository) {
+    CoinGeckoApiService(final CurrencyRepository currencyRepository, final CoinDetailsRepository coinDetailsRepository, final RestTemplate restTemplate) {
         this.currencyRepository = currencyRepository;
         this.coinDetailsRepository = coinDetailsRepository;
+        this.restTemplate = restTemplate;
     }
 
     public void updateCoinsList(CurrencyList list) {
@@ -44,7 +48,7 @@ public class CoinGeckoApiService {
         String requestUrl = baseApiUrl + "/simple/price?ids=" + coin + "&vs_currencies=usd&include_24hr_change=true";
 
         return Optional.ofNullable(restTemplate.getForObject(requestUrl, CoinPrice.class))
-                .orElseThrow(() -> new NullPointerException("No Price found for specified currency"));
+                .orElseThrow(() -> new NullPointerException("No Price found for specified currency."));
     }
 
 
@@ -67,11 +71,11 @@ public class CoinGeckoApiService {
         return firstPrice / secondPrice;
     }
 
-    public Double getCoinHistoricalPrice(String coinId, String transactionTime) {
+    public double getCoinHistoricalPrice(String coinId, String transactionTime) {
         return getCoinHistoricalPriceInSpecifiedCurrency(coinId, transactionTime, "usd");
     }
 
-    public Double getCoinHistoricalPriceInSpecifiedCurrency(String coinId, String transactionTime, String currencyId) {
+    public double getCoinHistoricalPriceInSpecifiedCurrency(String coinId, String transactionTime, String currencyId) {
         String requestUrl = baseApiUrl + "/coins/" + coinId + "/history?date=" + transactionTime + "&localization=false";
         JsonNode jsonNode = restTemplate.getForObject(requestUrl, JsonNode.class);
         assert jsonNode != null;
