@@ -4,6 +4,8 @@ import com.aveti.CoinTracker.model.CoinPrice;
 import com.aveti.CoinTracker.model.CurrencyList;
 import com.aveti.CoinTracker.model.repository.CoinDetailsRepository;
 import com.aveti.CoinTracker.model.repository.CurrencyRepository;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.InputStream;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.*;
@@ -29,13 +32,18 @@ class CoinGeckoApiServiceTest {
     @InjectMocks
     CoinGeckoApiService apiService;
 
+    @Mock
+    ObjectMapper mapper;
+
     @BeforeEach
     void setUp() {
         apiService = new CoinGeckoApiService(currencyRepository, coinDetailsRepository, restTemplate);
+        mapper = new ObjectMapper();
+
     }
 
     @Test
-    void ShouldUpdateCoinsList() {
+    void should_UpdateCoinsList() {
         //given
         CurrencyList mockCurrencyList = mock(CurrencyList.class);
         //when
@@ -45,7 +53,7 @@ class CoinGeckoApiServiceTest {
     }
 
     @Test
-    void ShouldReturnCoinsListFromDatabase() {
+    void shouldReturn_CoinsListFromDatabase() {
         //when
         var result = apiService.getCoinsListFromDatabase();
         //then
@@ -85,5 +93,26 @@ class CoinGeckoApiServiceTest {
         var expected = apiService.getCoinPriceInfo(anyString());
         //then
         assertThat(expected).isEqualTo(properObject);
+    }
+
+    @Test
+    void getCoinHistoricalPriceInSpecifiedCurrencyTest() {
+        //given
+        when(restTemplate.getForObject(anyString(), eq(JsonNode.class))).thenReturn(prepareValidJsonNode());
+        double expected = 2.29085435498536;
+        //when
+        var result = apiService.getCoinHistoricalPriceInSpecifiedCurrency("cardano", "2021-06-21T17:36:38", "usd");
+        //then
+        assertThat(result).isEqualTo(expected);
+    }
+
+    private JsonNode prepareValidJsonNode() {
+        try {
+            InputStream jsonText = ClassLoader.getSystemClassLoader().getResourceAsStream("coin_historical_price_example_response.json");
+            return mapper.readTree(jsonText);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
