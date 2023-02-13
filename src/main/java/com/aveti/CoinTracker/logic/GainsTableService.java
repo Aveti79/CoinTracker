@@ -68,7 +68,7 @@ public class GainsTableService {
         return result;
     }
 
-    Double calculateActualValue(double amount, double actualPrice) {
+    double calculateActualValue(double amount, double actualPrice) {
         return amount * actualPrice;
     }
 
@@ -79,11 +79,12 @@ public class GainsTableService {
         return (actualValue / sumOfSellAmount) - 1;
     }
 
-    Double getTotalCurrencyAmount(String currencyId) {
-        return transactionRepository.getSumOfBuyAmount(currencyId) - transactionRepository.getSumOfSellAmount(currencyId);
+    double getTotalCurrencyAmount(String currencyId) {
+        return transactionRepository.getSumOfBuyAmount(currencyId).orElse(0d) -
+                transactionRepository.getSumOfSellAmount(currencyId).orElse(0d);
     }
 
-    Double calculateAverageUnitCost(double summaryPrice, double amount) {
+    double calculateAverageUnitCost(double summaryPrice, double amount) {
         if (amount <= 0) {
             return 0d;
         }

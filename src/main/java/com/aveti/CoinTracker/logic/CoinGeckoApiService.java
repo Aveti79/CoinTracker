@@ -58,7 +58,7 @@ public class CoinGeckoApiService {
      * @param currency the currency you want to convert.
      * @param transactionTime exchange date for the given currency.
      *
-     * @return returns how much of given currency you have to pay for 1 US Dollar on a given date.
+     * @return returns how many USD you will get for 1 unit of given currency on a given date.
      */
     public double convertFiatToFiat(String currency, LocalDateTime transactionTime) {
         List<Double> prices = getCoinHistoricalPriceInManyCurrencies("bitcoin",

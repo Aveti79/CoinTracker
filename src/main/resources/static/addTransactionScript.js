@@ -16,9 +16,9 @@ $currency.autocomplete({
                 response($.map(data, function (item) {
                     if (item[4] === null) {
                         if (item[3] === 'FIAT' && currentFiats.includes(item[0])) {
-                            item[4] = "icons/" + item[0] + "_icon";
+                            item[4] = "icons/" + item[0] + "_icon.webp";
                         } else {
-                            item[4] = "icons/blank_icon";
+                            item[4] = "icons/blank_icon.webp";
                         }
                     }
                     return {

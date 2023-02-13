@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Integer> {
@@ -17,10 +18,10 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
     List<Transaction> findTransactionByBuyCurrencyIdOrderByTransactionTime(@Param("buyCurrency") String currency);
 
     @Query("select sum(sellAmount) from Transaction where sellCurrency.id=:sellCurrency")
-    Double getSumOfSellAmount(@Param("sellCurrency") String currency);
+    Optional<Double> getSumOfSellAmount(@Param("sellCurrency") String currency);
 
     @Query("select sum(buyAmount) from Transaction where buyCurrency.id=:buyCurrency")
-    Double getSumOfBuyAmount(@Param("buyCurrency") String currency);
+    Optional<Double> getSumOfBuyAmount(@Param("buyCurrency") String currency);
 
     @Query("select distinct(buyCurrency) from Transaction")
     List<Currency> findDistinctBuyCurrencies();

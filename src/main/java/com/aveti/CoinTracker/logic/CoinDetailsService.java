@@ -29,7 +29,7 @@ public class CoinDetailsService {
             }
         }
         else {
-            return "icons/" + currency.getId() + "_icon";
+            return "icons/" + currency.getId() + "_icon.webp";
         }
     }
 }
