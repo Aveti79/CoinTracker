@@ -36,10 +36,7 @@
     </style>
 </head>
 <body>
-<div th:replace="header.html :: header">
-    <h1>Welcome to Coin Tracker App</h1>
-    <h4>Data is provided by CoinGecko API</h4>
-</div>
+<div th:replace="header.html :: header"></div>
 <h3 th:text="#{tl.headerTitle}">Transactions List</h3>
 <table>
     <thead>

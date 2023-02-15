@@ -12,7 +12,10 @@
     <h4>Data is provided by CoinGecko API</h4>
 </div>
 <footer>
-    <small>Dane dostarczane przez <a href="https://www.coingecko.com/en/api">Coin Gecko API</a></small>
+    <small>
+        <span th:text="#{footer.api.info}" th:remove="tag">Data provided by </span>
+        <a th:text="#{footer.api.info.href}" href="https://www.coingecko.com/en/api">Coin Gecko API</a>
+    </small>
 </footer>
 </body>
 <script type="application/javascript" src="/languageChanger.js"></script>
