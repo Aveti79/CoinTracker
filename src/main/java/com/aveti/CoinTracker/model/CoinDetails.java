@@ -56,6 +56,10 @@ public class CoinDetails {
     private String atlDate;
     @JsonProperty("last_updated")
     private String lastUpdated;
+    @JsonProperty("price_change_percentage_1h_in_currency")
+    public Double priceChangePercentage1h;
+    @JsonProperty("price_change_percentage_7d_in_currency")
+    public Double priceChangePercentage7d;
 
     public CoinDetails() {
     }
@@ -68,8 +72,7 @@ public class CoinDetails {
                        Double circulatingSupply, Double totalSupply, Double maxSupply,
                        Double ath, Double athChangePercentage, String athDate,
                        Double atl, Double atlChangePercentage, String atlDate,
-                       String lastUpdated) {
-        super();
+                       String lastUpdated, Double priceChangePercentage1h, Double priceChangePercentage7d) {
         this.id = id;
         this.symbol = symbol;
         this.name = name;
@@ -95,6 +98,8 @@ public class CoinDetails {
         this.atlChangePercentage = atlChangePercentage;
         this.atlDate = atlDate;
         this.lastUpdated = lastUpdated;
+        this.priceChangePercentage1h = priceChangePercentage1h;
+        this.priceChangePercentage7d = priceChangePercentage7d;
     }
 
     public String getId() {
@@ -295,5 +300,21 @@ public class CoinDetails {
 
     public void setLastUpdated(String lastUpdated) {
         this.lastUpdated = lastUpdated;
+    }
+
+    public Double getPriceChangePercentage1h() {
+        return priceChangePercentage1h;
+    }
+
+    public void setPriceChangePercentage1h(final Double priceChangePercentage1h) {
+        this.priceChangePercentage1h = priceChangePercentage1h;
+    }
+
+    public Double getPriceChangePercentage7d() {
+        return priceChangePercentage7d;
+    }
+
+    public void setPriceChangePercentage7d(final Double priceChangePercentage7d) {
+        this.priceChangePercentage7d = priceChangePercentage7d;
     }
 }
