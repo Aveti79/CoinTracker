@@ -1,6 +1,9 @@
 package com.aveti.CoinTracker.logic;
 
-import com.aveti.CoinTracker.model.*;
+import com.aveti.CoinTracker.model.CoinDetails;
+import com.aveti.CoinTracker.model.CoinPrice;
+import com.aveti.CoinTracker.model.Currency;
+import com.aveti.CoinTracker.model.CurrencyList;
 import com.aveti.CoinTracker.model.repository.CoinDetailsRepository;
 import com.aveti.CoinTracker.model.repository.CurrencyRepository;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -21,11 +24,12 @@ public class CoinGeckoApiService {
 
     private final CurrencyRepository currencyRepository;
     private final CoinDetailsRepository coinDetailsRepository;
-    private final RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate;
 
-    CoinGeckoApiService(final CurrencyRepository currencyRepository, final CoinDetailsRepository coinDetailsRepository) {
+    CoinGeckoApiService(final CurrencyRepository currencyRepository, final CoinDetailsRepository coinDetailsRepository, final RestTemplate restTemplate) {
         this.currencyRepository = currencyRepository;
         this.coinDetailsRepository = coinDetailsRepository;
+        this.restTemplate = restTemplate;
     }
 
     public void updateCoinsList(CurrencyList list) {
@@ -33,18 +37,18 @@ public class CoinGeckoApiService {
         currencyRepository.saveAll(Currency.getAllSupportedFiat());
     }
 
-    public List<Currency> getCoinList() {
+    public List<Currency> getCoinsListFromDatabase() {
         return currencyRepository.findAll();
     }
 
     public CoinPrice getCoinPriceInfo(String coin) {
         if (!currencyRepository.existsById(coin)) {
-            throw new IllegalArgumentException("Brak wskazanej kryptowaluty w bazie danych");
+            throw new IllegalArgumentException("Currency not found in database");
         }
         String requestUrl = baseApiUrl + "/simple/price?ids=" + coin + "&vs_currencies=usd&include_24hr_change=true";
 
         return Optional.ofNullable(restTemplate.getForObject(requestUrl, CoinPrice.class))
-                .orElseThrow(() -> new NullPointerException("Wystąpił problem z pobraniem aktualnej ceny."));
+                .orElseThrow(() -> new NullPointerException("No Price found for specified currency."));
     }
 
 
@@ -54,10 +58,10 @@ public class CoinGeckoApiService {
      * @param currency the currency you want to convert.
      * @param transactionTime exchange date for the given currency.
      *
-     * @return returns how much of given currency you have to pay for 1 US Dollar on a given date.
+     * @return returns how many USD you will get for 1 unit of given currency on a given date.
      */
     public double convertFiatToFiat(String currency, LocalDateTime transactionTime) {
-        List<Double> prices = getHistoricalPriceInManyCurrencies("bitcoin",
+        List<Double> prices = getCoinHistoricalPriceInManyCurrencies("bitcoin",
                 transactionTime.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")),
                 "usd", currency);
 
@@ -67,18 +71,18 @@ public class CoinGeckoApiService {
         return firstPrice / secondPrice;
     }
 
-    public Double getCoinHistoricalPrice(String coinId, String transactionTime) {
+    public double getCoinHistoricalPrice(String coinId, String transactionTime) {
         return getCoinHistoricalPriceInSpecifiedCurrency(coinId, transactionTime, "usd");
     }
 
-    public Double getCoinHistoricalPriceInSpecifiedCurrency(String coinId, String transactionTime, String currencyId) {
+    public double getCoinHistoricalPriceInSpecifiedCurrency(String coinId, String transactionTime, String currencyId) {
         String requestUrl = baseApiUrl + "/coins/" + coinId + "/history?date=" + transactionTime + "&localization=false";
         JsonNode jsonNode = restTemplate.getForObject(requestUrl, JsonNode.class);
         assert jsonNode != null;
         return jsonNode.get("market_data").get("current_price").get(currencyId).asDouble();
     }
 
-    public List<Double> getHistoricalPriceInManyCurrencies(String coinId, String transactionTime, String...targetCurrency) {
+    public List<Double> getCoinHistoricalPriceInManyCurrencies(String coinId, String transactionTime, String...targetCurrency) {
         String requestUrl = baseApiUrl + "/coins/" + coinId + "/history?date=" + transactionTime + "&localization=false";
         JsonNode jsonNode = restTemplate.getForObject(requestUrl, JsonNode.class);
         List<Double> result = new ArrayList<>();

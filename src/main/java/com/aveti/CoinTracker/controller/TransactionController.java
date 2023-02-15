@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/transaction")
+@RequestMapping("/transactions")
 public class  TransactionController {
 
     private final TransactionService service;
@@ -32,13 +32,13 @@ public class  TransactionController {
         return service.findTransactionById(id);
     }
 
-    @GetMapping("/b&{currency}")
-    List<Transaction> getTransactionListOfBuyCurrency(@PathVariable String currency) {
+    @GetMapping("/buy/{currency}")
+    List<Transaction> getTransactionsListOfBuyCurrency(@PathVariable String currency) {
         return service.findTransactionsByBuyCurrency(currency);
     }
 
-    @GetMapping("/s&{currency}")
-    List<Transaction> getTransactionListOfSellCurrency(@PathVariable String currency) {
+    @GetMapping("/sell/{currency}")
+    List<Transaction> getTransactionsListOfSellCurrency(@PathVariable String currency) {
         return service.findTransactionsBySellCurrency(currency);
     }
 
@@ -48,15 +48,11 @@ public class  TransactionController {
         return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
     }
 
-    @GetMapping("/buy_coins")
-    List<Currency> getDistinctBuyCurrencies() {
-        return service.getUsedCurrencies();
-    }
-
     //Development
-    @GetMapping("/update_trades")
-    ResponseEntity<?> updateTransactionsPrices() {
+    @GetMapping("/update")
+    ResponseEntity<?> updateTransactionsUsdPrices() {
         service.updateBuyValuesInUsd();
+        service.updateSellValuesInUsd();
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

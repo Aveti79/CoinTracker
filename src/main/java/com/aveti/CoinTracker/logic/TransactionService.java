@@ -8,6 +8,7 @@ import com.aveti.CoinTracker.model.repository.CurrencyRepository;
 import com.aveti.CoinTracker.model.repository.TransactionRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
@@ -36,22 +37,24 @@ public class TransactionService {
         Currency buyCurrency = getCurrencyFromString(transactionToAdd.getBuyCurrency());
         Currency sellCurrency = getCurrencyFromString(transactionToAdd.getSellCurrency());
         Currency feeCurrency = getCurrencyFromString(transactionToAdd.getFeeCurrency());
-        if (sellCurrency != null && !sellCurrency.getType().equals("FIAT")) {
-            transactionToAdd.setSellValueInUsd(
-                    transactionToAdd.getSellAmount() * apiService.getCoinHistoricalPrice(
-                            sellCurrency.getId(),
-                            transactionToAdd.getTransactionTime().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))
-                    )
-            );
-        } else {
-            transactionToAdd.setSellValueInUsd(transactionToAdd.getSellAmount());
-        }
+
+        transactionToAdd.setBuyValueInUsd(
+                getCurrencyAmountConvertedToUSD(buyCurrency,
+                        transactionToAdd.getBuyAmount(),
+                        transactionToAdd.getTransactionTime()));
+
+        transactionToAdd.setSellValueInUsd(
+                getCurrencyAmountConvertedToUSD(sellCurrency,
+                        transactionToAdd.getSellAmount(),
+                        transactionToAdd.getTransactionTime())
+        );
+
         Transaction result = transactionToAdd.toTransaction(buyCurrency, sellCurrency, feeCurrency);
         transactionRepository.save(result);
         return result;
     }
 
-    private Currency getCurrencyFromString(String currencyId) {
+    public Currency getCurrencyFromString(String currencyId) {
         if (!currencyId.isBlank()) {
             return currencyRepository.findById(currencyId)
                     .orElseThrow(() -> new IllegalArgumentException("Currency not found in database"));
@@ -59,11 +62,22 @@ public class TransactionService {
         return null;
     }
 
+    public double getCurrencyAmountConvertedToUSD(Currency currency, double amount, LocalDateTime transactionTime) {
+        if (currency!=null && currency.getType().equals("COIN")) {
+            return amount * apiService.getCoinHistoricalPrice(
+                    currency.getId(),
+                    transactionTime.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+        } else if (currency!=null && !currency.getId().equals("usd")) {
+            return amount * apiService.convertFiatToFiat(currency.getId(),transactionTime);
+        } else {
+            return amount;
+        }
+    }
+
     public void updateSellValuesInUsd() {
-        List<Transaction> transactions = transactionRepository.findAll();
-                /*.stream()
+        List<Transaction> transactions = transactionRepository.findAll().stream()
                 .filter(transaction -> transaction.getSellValueInUsd() == 0.0)
-                .toList();*/
+                .toList();
 
         for (Transaction trade : transactions) {
             if (!trade.getSellCurrency().getType().equals("FIAT")) {
@@ -132,14 +146,6 @@ public class TransactionService {
 
     public List<Transaction> findTransactionsBySellCurrency(String currency) {
         return transactionRepository.findTransactionBySellCurrencyIdOrderByTransactionTime(currency);
-    }
-
-    public List<Currency> findAllCoinsUsedInTransactions() {
-        return transactionRepository.findAll().stream().map(Transaction::getBuyCurrency).collect(Collectors.toList());
-    }
-
-    public List<Currency> getUsedCurrencies() {
-        return transactionRepository.findDistinctBuyCurrencies();
     }
 
 }
