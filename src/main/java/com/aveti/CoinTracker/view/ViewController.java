@@ -3,6 +3,9 @@ package com.aveti.CoinTracker.view;
 import com.aveti.CoinTracker.logic.GainsTableService;
 import com.aveti.CoinTracker.logic.TransactionService;
 import com.aveti.CoinTracker.model.projection.TransactionWriteModel;
+import com.aveti.CoinTracker.model.repository.CoinDetailsRepository;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -20,10 +23,22 @@ public class ViewController {
 
     private final GainsTableService gainsTableService;
     private final TransactionService transactionService;
+    private final CoinDetailsRepository coinDetailsRepository;
 
-    ViewController(final GainsTableService gainsTableService, final TransactionService transactionService) {
+    ViewController(final GainsTableService gainsTableService, final TransactionService transactionService,
+                   final CoinDetailsRepository coinDetailsRepository) {
         this.gainsTableService = gainsTableService;
         this.transactionService = transactionService;
+        this.coinDetailsRepository = coinDetailsRepository;
+    }
+
+    @GetMapping
+    String viewDashboard(Model model) {
+        model.addAttribute("coinRows",
+                coinDetailsRepository.findAll(PageRequest.of(0,100, Sort.by("marketCap")
+                        .descending())).toList()
+        );
+        return "dashboard";
     }
 
     @GetMapping("/transactions")
