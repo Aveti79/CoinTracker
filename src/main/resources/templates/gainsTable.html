@@ -17,8 +17,21 @@
             display: table;
         }
 
-        thead > tr > th {
+        thead {
+            background: #333;
+            color: white;
+        }
+
+        table td, table th {
             vertical-align: middle;
+        }
+
+        table td:first-child, table th:first-child{
+            padding-left:12px;
+        }
+
+        table td:first-child {
+            white-space: nowrap;
         }
 
         td > img {
@@ -32,6 +45,28 @@
             vertical-align: middle;
             margin-left: 5px;
             font-weight: 500;
+        }
+        .percentRed {
+            color: #C51032;
+            text-shadow: 0 0 1px rgb(143 143 143 / 50%);
+        }
+
+        .percentNormal {
+            color: black;
+            text-shadow: 0 0 1px rgb(143 143 143 / 50%);
+        }
+
+        .percentGreen {
+            color: #56AF05;
+            text-shadow: 0 0 1px rgb(143 143 143 / 50%);
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover:not(thead > tr):not(tfoot > tr) {
+            background: rgba(185, 205, 235, 0.5);
         }
     </style>
 </head>
@@ -64,8 +99,10 @@
             </td>
             <td th:text="${@decimalFormatter.formatDecimalStripTrailingZeros(tableRow.getAmount(), 1, 8)}"></td>
             <td th:text="${@currencyFormatter.formatCurrency(tableRow.getAverageBuyPrice(), #locale.US)}"></td>
-            <td th:text="${@currencyFormatter.formatCurrency(tableRow.getActualPrice(), #locale.US)} + ' '
-                            + ${#numbers.formatPercent(tableRow.getPriceChange24h()/100, 1, 2)}"></td>
+            <td>
+                <span th:text="${@currencyFormatter.formatCurrency(tableRow.getActualPrice(), #locale.US)}"></span>
+                <span class="percentNormal" th:text="${#numbers.formatPercent(tableRow.getPriceChange24h()/100, 1, 2)}"></span>
+            </td>
             <td th:text="${@currencyFormatter.formatCurrency(tableRow.getSummaryPrice(), #locale.US)}"></td>
             <td th:text="${@currencyFormatter.formatCurrency(tableRow.getActualValue(), #locale.US)}"></td>
             <td th:text="${#numbers.formatPercent(tableRow.getPercentageValueChange(), 1, 2)}"></td>
@@ -91,5 +128,17 @@
     </small>
 </footer>
 </body>
+<script>
+    document.querySelectorAll(".percentNormal").forEach((value) => {
+        let floatVal = parseFloat(value.textContent.replace(',', '.'));
+        if (floatVal>0) {
+            value.className = "percentGreen";
+        } else if (floatVal<0) {
+            value.className = "percentRed";
+        } else {
+            value.className = "percentNormal";
+        }
+    })
+</script>
 <script type="application/javascript" src="/languageChanger.js"></script>
 </html>
