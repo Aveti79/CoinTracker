@@ -102,7 +102,6 @@ public class CoinGeckoApiService {
                 coinDetailsRepository.saveAll(Arrays.asList(coinDetails));
             }
         }
-
     }
 
     public CoinDetails getSingleCoinDetailsFromAPI(String currencyId) {
@@ -113,5 +112,14 @@ public class CoinGeckoApiService {
                 return coinDetails[0];
             }
             return null;
+    }
+
+    public void updateCoinsDetailsFromAPI() {
+        int page = 1;
+        String requestUrl = baseApiUrl + "/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=" + page +"&sparkline=false&price_change_percentage=1h,7d";
+        CoinDetails[] coinDetails = restTemplate.getForObject(requestUrl, CoinDetails[].class);
+        if (coinDetails!=null) {
+            coinDetailsRepository.saveAll(Arrays.asList(coinDetails));
+        }
     }
 }

@@ -32,8 +32,13 @@ public class CoinGeckoApiController {
         return apiService.getCoinsListFromDatabase();
     }
 
-    @GetMapping("/coins-details/update")
-    public void updateCoinsDetails() {
+    @GetMapping("/coins-details/get-details")
+    public void getCoinsDetails() {
         apiService.getCoinsDetailsFromAPI();
+    }
+
+    @GetMapping("/coins-details/update-details")
+    public void updateCoinsDetails() {
+        apiService.updateCoinsDetailsFromAPI();
     }
 }
