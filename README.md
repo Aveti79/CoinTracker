@@ -1,3 +1,4 @@
+![CoinTrackerBannerCP](https://user-images.githubusercontent.com/68544494/222198617-a535e453-0f96-432d-9607-eabe2b397441.jpg)
 # CoinTracker
 CoinTracking is a web application for tracking your cryptocurrency portfolio.
 This app was created to easily and affordably track and analyze our transactions made in the cryptocurrency market.
@@ -33,13 +34,18 @@ Below there is listed current techstack of application:<br>
 
 # How it works and how to use it?
 
-Here is a video presentation of application i recommend to watach: <br>
+Here is short video presentation of application i recommend to watach: <br>
 
 <p align="center">
     <a href="https://www.youtube.com/watch?v=bKvR75TJlIk">Coin Tracker Presentation</a>
 <p>
 
-[![Coin Tracker Presentation](https://i9.ytimg.com/vi_webp/bKvR75TJlIk/maxresdefault.webp?v=63f3ba9f&sqp=CNDzzp8G&rs=AOn4CLDHTZ2TiQa0qlSspUQtxyG0JDul2A)](https://www.youtube.com/watch?v=bKvR75TJlIk)
+<div align="center">
+<a href="https://www.youtube.com/watch?v=bKvR75TJlIk">
+   <img src="https://user-images.githubusercontent.com/68544494/222205647-f1fbd3a2-dc63-4972-a22c-a75bb4aa6488.jpeg" width=640 align="center">
+</a>
+</div>
+
 # Project structure 
 ```
 src
@@ -70,4 +76,5 @@ src
     │           └───CoinTracker
     │               └───logic
     └───resources
+
 ```
