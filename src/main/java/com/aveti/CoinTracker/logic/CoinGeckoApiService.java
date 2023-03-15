@@ -26,7 +26,7 @@ public class CoinGeckoApiService {
     private final CoinDetailsRepository coinDetailsRepository;
     private final RestTemplate restTemplate;
 
-    CoinGeckoApiService(final CurrencyRepository currencyRepository, final CoinDetailsRepository coinDetailsRepository, final RestTemplate restTemplate) {
+    CoinGeckoApiService(CurrencyRepository currencyRepository, CoinDetailsRepository coinDetailsRepository, RestTemplate restTemplate) {
         this.currencyRepository = currencyRepository;
         this.coinDetailsRepository = coinDetailsRepository;
         this.restTemplate = restTemplate;

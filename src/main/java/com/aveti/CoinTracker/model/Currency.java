@@ -1,11 +1,18 @@
 package com.aveti.CoinTracker.model;
 
-import javax.persistence.*;
+import lombok.*;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "currencies")
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter @Setter
 public class Currency {
 
     @Id
@@ -13,48 +20,6 @@ public class Currency {
     private String symbol;
     private String name;
     private String type;
-
-    public Currency() {
-    }
-
-    public Currency(final String id, final String symbol, final String name, final String type) {
-        this.id = id;
-        this.symbol = symbol;
-        this.name = name;
-        this.type = type;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(final String id) {
-        this.id = id;
-    }
-
-    public String getSymbol() {
-        return symbol;
-    }
-
-    public void setSymbol(final String symbol) {
-        this.symbol = symbol;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(final String name) {
-        this.name = name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(final String type) {
-        this.type = type;
-    }
 
     @Override
     public String toString() {
