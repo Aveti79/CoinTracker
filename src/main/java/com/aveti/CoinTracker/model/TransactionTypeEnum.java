@@ -5,6 +5,5 @@ public enum TransactionTypeEnum {
     TRADE,
     DEPOSIT,
     WITHDRAW,
-    TRANSFER
 
 }

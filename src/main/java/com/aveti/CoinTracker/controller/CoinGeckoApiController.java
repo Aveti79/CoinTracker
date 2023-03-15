@@ -32,11 +32,17 @@ public class CoinGeckoApiController {
         return apiService.getCoinsListFromDatabase();
     }
 
+    /**
+     * Slower data reload of 4000 coins
+     */
     @GetMapping("/coins-details/get-details")
     public void getCoinsDetails() {
         apiService.getCoinsDetailsFromAPI();
     }
 
+    /**
+     *  Fast data reload of first 100 coins on main page
+     */
     @GetMapping("/coins-details/update-details")
     public void updateCoinsDetails() {
         apiService.updateCoinsDetailsFromAPI();
