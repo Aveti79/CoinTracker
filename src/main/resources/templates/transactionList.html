@@ -15,10 +15,31 @@
             margin: 12px 24px;
             width: calc(100% - 48px);
             display: table;
+            background: none;
         }
 
-        thead > tr > th {
+        thead {
+            background: #333;
+            color: white;
+        }
+
+        table th {
+            padding: 12px;
+        }
+
+        table td, table th {
             vertical-align: middle;
+            border: 0;
+        }
+
+        table td:first-child, table th:first-child{
+            padding-left:12px;
+            background: none;
+        }
+
+        table td:last-child, table th:last-child {
+            padding-right: 12px;
+            background: none;
         }
 
         td > img {
@@ -32,6 +53,14 @@
             vertical-align: middle;
             margin-left: 5px;
             font-weight: 500;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover:not(thead > tr) {
+            background: rgba(185, 205, 235, 0.5);
         }
     </style>
 </head>
@@ -56,7 +85,7 @@
     <!--/*@thymesVar id="transaction" type="com.aveti.CoinTracker.model.projection.TransactionReadModel"*/-->
     <tr th:each="transaction : ${transactions}">
         <td th:text="#{'atp.transactiontype.t' + ${transaction.getType().ordinal()+1}}"></td>
-        <td th:text="${transaction.getTransactionTime()}"></td>
+        <td th:text="${#strings.replace(transaction.getTransactionTime(), 'T', ' ')}"></td>
         <td th:text="${@decimalFormatter.formatDecimalStripTrailingZeros(transaction.getBuyAmount(), 1, 8)}"></td>
         <td>
             <img th:src="${transaction.getBuyCurrencyLogo()}">
