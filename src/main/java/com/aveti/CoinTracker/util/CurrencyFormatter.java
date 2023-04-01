@@ -26,7 +26,8 @@ public class CurrencyFormatter {
         var nf = NumberFormat.getCurrencyInstance(locale);
         if (Math.abs(target.doubleValue())<=0.1) {
             nf.setMaximumFractionDigits(4);
-        } else if (Math.abs(target.doubleValue())<=0.01) {
+        }
+        if (Math.abs(target.doubleValue())<=0.01) {
             nf.setMaximumFractionDigits(8);
         }
         try {
